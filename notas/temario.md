@@ -2,12 +2,14 @@
 
 ## Datos del curso
 
-| | |
-|---|---|
-| Fechas | Del lunes 19 al viernes 23 de octubre de 2026 |
-| Horario | De 9:00 a 14:00 |
-| Duración | 25 horas: 5 sesiones de 5 horas |
-| Versiones de referencia | Red Hat Enterprise Linux 10, Ansible Core 2.16 y Ansible development tools. Alineado con Red Hat Ansible Automation Platform 2.5 y 2.6 |
+| Dato       | Valor                                         |
+|------------|-----------------------------------------------|
+| Fechas     | Del lunes 19 al viernes 23 de octubre de 2026 |
+| Horario    | De 9:00 a 14:00                               |
+| Duración   | 25 horas: 5 sesiones de 5 horas               |
+| Sistema    | Red Hat Enterprise Linux 10                   |
+| Ansible    | Ansible Core 2.16 y Ansible development tools |
+| Plataforma | Red Hat Ansible Automation Platform 2.5 y 2.6 |
 
 ## A quién va dirigido
 
@@ -90,13 +92,13 @@ Al terminar el curso, el alumno será capaz de:
 El temario oficial está pensado para cuatro días. Aquí tenemos cinco sesiones
 de cinco horas, así que el reparto es una guía y se ajusta al ritmo del grupo.
 
-| Día | Fecha | Contenidos |
-|---|---|---|
-| 1 | Lunes 19 | Bienvenida y laboratorio. Capítulo 1 y comienzo del 2: inventarios y primer *playbook* |
-| 2 | Martes 20 | Capítulo 2 y capítulo 3: variables, *facts* y Ansible Vault |
-| 3 | Miércoles 21 | Capítulos 4 y 5: bucles, condicionales y plantillas |
-| 4 | Jueves 22 | Capítulos 6 y 7: *playbooks* a escala, roles y colecciones |
-| 5 | Viernes 23 | Capítulo 8 y un ejercicio final que junta todo lo anterior |
+| Día | Fecha        | Contenidos                                                                             |
+|-----|--------------|----------------------------------------------------------------------------------------|
+| 1   | Lunes 19     | Bienvenida y laboratorio. Capítulo 1 y comienzo del 2: inventarios y primer *playbook* |
+| 2   | Martes 20    | Capítulo 2 y capítulo 3: variables, *facts* y Ansible Vault                            |
+| 3   | Miércoles 21 | Capítulos 4 y 5: bucles, condicionales y plantillas                                    |
+| 4   | Jueves 22    | Capítulos 6 y 7: *playbooks* a escala, roles y colecciones                             |
+| 5   | Viernes 23   | Capítulo 8 y un ejercicio final que junta todo lo anterior                             |
 
 ## Diferencias con el laboratorio oficial
 

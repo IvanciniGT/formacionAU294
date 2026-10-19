@@ -15,12 +15,12 @@ que vamos a trabajar, las notas de cada día y, sobre todo, **cómo es y cómo s
 usa el laboratorio**. Léelo con calma antes de empezar o durante la primera
 mañana.
 
-| | |
-|---|---|
-| Fechas | Del lunes 19 al viernes 23 de octubre de 2026 |
-| Horario | De 9:00 a 14:00 |
-| Temario | [notas/temario.md](notas/temario.md) |
-| Notas de clase | [notas/](notas/), un fichero por día |
+| Dato           | Valor                                         |
+|----------------|-----------------------------------------------|
+| Fechas         | Del lunes 19 al viernes 23 de octubre de 2026 |
+| Horario        | De 9:00 a 14:00                               |
+| Temario        | [notas/temario.md](notas/temario.md)          |
+| Notas de clase | [notas/](notas/), un fichero por día          |
 
 **No tienes que instalar Ansible en tu portátil.** El laboratorio está en un
 clúster de Kubernetes y se usa desde el navegador. Si además quieres ejecutar en
@@ -34,26 +34,34 @@ local, al final del documento se explica cómo, pero es opcional.
 
 Cada alumno tiene su propio espacio, separado del de los demás.
 
-| Qué | Lo tuyo |
-|---|---|
-| Usuario | `alumnoN`. Búscate en la tabla de abajo |
-| Dos máquinas Linux | `servidor-rocky` y `servidor-ubuntu` |
+| Qué                     | Lo tuyo                                                              |
+|-------------------------|----------------------------------------------------------------------|
+| Usuario                 | `alumnoN`. Búscate en la tabla de abajo                              |
+| Dos máquinas Linux      | `servidor-rocky` y `servidor-ubuntu`                                 |
 | Un sitio donde ejecutar | Tu organización en AWX, con tu inventario y tu credencial ya puestos |
-| Espacio en Kubernetes | Un *namespace* con tu nombre (`alumnoN`) |
-| Tres bases de datos | `alumnoN_dev`, `alumnoN_test` y `alumnoN_pro` |
+| Espacio en Kubernetes   | Un *namespace* con tu nombre (`alumnoN`)                             |
+| Tres bases de datos     | `alumnoN_dev`, `alumnoN_test` y `alumnoN_pro`                        |
 
 ### Tu usuario
 
-| Usuario | Alumno | | Usuario | Alumno |
-|---|---|---|---|---|
-| `alumno1` | Kevin T. | | `alumno9` | Laura Al. |
-| `alumno2` | Salima E. | | `alumno10` | Antonio Manuel G. |
-| `alumno3` | David P. | | `alumno11` | Alejandro G. |
-| `alumno4` | José G. | | `alumno12` | Raúl S. |
-| `alumno5` | Guillermo G. | | `alumno13` | Óscar G. |
-| `alumno6` | Sergio O. | | `alumno14` | Francesc V. |
-| `alumno7` | David A. | | `alumno15` | Laura Ar. |
-| `alumno8` | Ismael R. | | `alumno16` | Fernando D. |
+| Usuario    | Alumno            |
+|------------|-------------------|
+| `alumno1`  | Kevin T.          |
+| `alumno2`  | Salima E.         |
+| `alumno3`  | David P.          |
+| `alumno4`  | José G.           |
+| `alumno5`  | Guillermo G.      |
+| `alumno6`  | Sergio O.         |
+| `alumno7`  | David A.          |
+| `alumno8`  | Ismael R.         |
+| `alumno9`  | Laura Al.         |
+| `alumno10` | Antonio Manuel G. |
+| `alumno11` | Alejandro G.      |
+| `alumno12` | Raúl S.           |
+| `alumno13` | Óscar G.          |
+| `alumno14` | Francesc V.       |
+| `alumno15` | Laura Ar.         |
+| `alumno16` | Fernando D.       |
 
 ### Arquitectura
 
@@ -129,12 +137,12 @@ del clúster. Rompe lo que quieras: no afecta a nadie más.
 
 ## Dónde se entra
 
-| Para qué | Dirección |
-|---|---|
-| Ejecutar tus *playbooks* | https://awx.ivanosuna.com |
-| Ver tu espacio en Kubernetes | https://cluster.ivanosuna.com |
-| Tu identidad | https://iam.iochannel.tech |
-| Bases de datos desde el navegador | https://bbdd.ivanosuna.com |
+| Para qué                          | Dirección                     |
+|-----------------------------------|-------------------------------|
+| Ejecutar tus *playbooks*          | https://awx.ivanosuna.com     |
+| Ver tu espacio en Kubernetes      | https://cluster.ivanosuna.com |
+| Tu identidad                      | https://iam.iochannel.tech    |
+| Bases de datos desde el navegador | https://bbdd.ivanosuna.com    |
 
 **Las tres primeras usan el mismo usuario y la misma contraseña.** El usuario es
 `alumnoN`. La contraseña te la digo en clase el primer día. No está escrita en
