@@ -1,9 +1,9 @@
 ---
 # Configuración de ansible-navigator para los alumnos que lo usen.
 #
-# No es obligatorio: el curso se puede seguir con ansible-playbook a secas o
-# desde AWX. Se incluye para quien quiera trabajar con el entorno de
-# ejecución en local.
+# Sirve para VALIDAR en el portátil (--syntax-check), no para ejecutar: las
+# máquinas del aula sólo son accesibles desde dentro del clúster, y quien
+# ejecuta es AWX. Por eso no se monta ninguna clave SSH.
 ansible-navigator:
   ansible:
     inventory:
@@ -17,11 +17,6 @@ ansible-navigator:
     image: registry.ivanosuna.com/curso/ee-basico:1.0
     pull:
       policy: missing
-    volume-mounts:
-      # La clave SSH del alumno, para que el entorno pueda conectar.
-      - src: ~/.ssh/aula
-        dest: /runner/.ssh/aula
-        options: ro
   mode: stdout
   logging:
     level: warning

@@ -23,8 +23,9 @@ mañana.
 | Notas de clase | [notas/](notas/), un fichero por día          |
 
 **No tienes que instalar Ansible en tu portátil.** El laboratorio está en un
-clúster de Kubernetes y se usa desde el navegador. Si además quieres ejecutar en
-local, al final del documento se explica cómo, pero es opcional.
+clúster de Kubernetes y se usa desde el navegador. Tus máquinas sólo son
+accesibles desde dentro del clúster, así que los *playbooks* se ejecutan siempre
+desde AWX.
 
 ---
 
@@ -139,7 +140,7 @@ Si se te olvida, pídemela. No la busques en el material.
 proyectos/
   ejemplo/                  el primer playbook, para comprobar que todo va
   entornos-de-ejecucion/    cómo se empaqueta Ansible en un contenedor
-  ansible-navigator.yml     configuración para ejecutar en local (opcional)
+  ansible-navigator.yml     configuración para validar en tu portátil (opcional)
 
 notas/
   temario.md                el temario del curso
@@ -206,30 +207,33 @@ Poca cosa, y seguramente ya lo tienes:
 
 No hace falta instalar Ansible.
 
-### Si además quieres ejecutar en local (opcional)
+### Si quieres validar en tu portátil (opcional)
 
-Se puede, y a partir de cierto momento del curso es cómodo para probar sin subir
-nada. Necesitas:
+Desde tu portátil no puedes llegar a las máquinas, así que ahí no se ejecuta
+nada. Sí puedes comprobar que un *playbook* está bien escrito antes de subirlo,
+y te ahorras ir y volver a AWX por una errata. Necesitas:
 
 - **Podman o Docker**, para el entorno de ejecución.
 - **`ansible-navigator`**: `pip install ansible-navigator`.
-- **Tu clave SSH**, guardada en `~/.ssh/aula` con permisos `600`. En clase
-  vemos cómo conseguirla.
 
-`proyectos/ansible-navigator.yml` ya está configurado para eso: monta tu clave
-dentro del contenedor y usa el entorno básico.
+`proyectos/ansible-navigator.yml` ya está configurado para usar el entorno
+básico:
 
 ```bash
 cd proyectos
-ansible-navigator run ejemplo/playbook-prueba.yml
+ansible-navigator run ejemplo/playbook-prueba.yml --syntax-check
 ```
+
+Si no da errores, el *playbook* está bien escrito. Que además haga lo que tiene
+que hacer sólo lo vas a saber ejecutándolo en AWX.
 
 ---
 
 ## La primera comprobación
 
-Antes de escribir nada, lanza el *playbook* de prueba. Si sale bien, el
-laboratorio está completo y puedes empezar.
+Antes de escribir nada, entra en AWX y lanza la plantilla
+`alumnoN-comprobar-laboratorio`, que ejecuta el *playbook* de prueba. Si sale
+bien, el laboratorio está completo y puedes empezar.
 
 Te tiene que decir qué sistema operativo tiene cada máquina. Si eso funciona,
 funciona todo lo demás: la conexión, las credenciales, los permisos y la red.
@@ -242,9 +246,9 @@ que sea cosa del laboratorio y no tuya.
 
 ## Cosas que te van a pasar, y por qué
 
-**«No conecta con la máquina».** Lo más habitual el primer día es la clave SSH:
-tiene que estar en `~/.ssh/aula` y con permisos `600`. Si cualquiera puede
-leerla, SSH la rechaza, y el mensaje de error no siempre lo deja claro.
+**«No conecta con la máquina».** Si AWX da `UNREACHABLE` o
+`Permission denied`, no toques nada de tu lado: la credencial SSH ya está
+configurada en AWX y el fallo es del laboratorio. Avísame.
 
 **«A mí me funciona y a mi compañero no».** Cada uno tiene sus propias máquinas.
 Si le pasas un *playbook* a alguien, le funcionará, porque los nombres son los
