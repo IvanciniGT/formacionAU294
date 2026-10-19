@@ -39,8 +39,6 @@ Cada alumno tiene su propio espacio, separado del de los demás.
 | Usuario                 | `alumnoN`. Búscate en la tabla de abajo                              |
 | Dos máquinas Linux      | `servidor-rocky` y `servidor-ubuntu`                                 |
 | Un sitio donde ejecutar | Tu organización en AWX, con tu inventario y tu credencial ya puestos |
-| Espacio en Kubernetes   | Un *namespace* con tu nombre (`alumnoN`)                             |
-| Tres bases de datos     | `alumnoN_dev`, `alumnoN_test` y `alumnoN_pro`                        |
 
 ### Tu usuario
 
@@ -74,14 +72,11 @@ flowchart LR
     git[("Tu repositorio<br/>de Git")]
 
     subgraph cluster["Clúster de Kubernetes del aula"]
-        keycloak["Keycloak<br/>iam.iochannel.tech<br/>quién eres"]
         awx["AWX<br/>awx.ivanosuna.com<br/>ejecuta los playbooks"]
-        headlamp["Headlamp<br/>cluster.ivanosuna.com<br/>ves tu namespace"]
 
-        subgraph ns["Tu namespace: alumnoN"]
+        subgraph ns["Tu espacio: alumnoN"]
             rocky["servidor-rocky<br/>Rocky Linux"]
             ubuntu["servidor-ubuntu<br/>Ubuntu"]
-            secretos["Tu clave SSH<br/>y tu inventario"]
         end
     end
 
@@ -89,15 +84,10 @@ flowchart LR
     awx -- "clona en cada ejecución" --> git
     awx -- "SSH como usuario ansible" --> rocky
     awx -- "SSH como usuario ansible" --> ubuntu
-    keycloak -. "inicio de sesión" .-> awx
-    keycloak -. "inicio de sesión" .-> headlamp
-    headlamp --- secretos
 ```
 
 Las piezas, una a una:
 
-- **Keycloak** guarda tu identidad. Entras con el mismo usuario y la misma
-  contraseña en AWX y en Headlamp.
 - **AWX** ejecuta tus *playbooks*. Es el proyecto de código abierto del que sale
   el *automation controller* de Red Hat Ansible Automation Platform, así que lo
   que aprendas aquí te vale allí. Cada vez que lanzas un trabajo, AWX vuelve a
@@ -106,9 +96,6 @@ Las piezas, una a una:
   SSH, Python y un usuario `ansible` que puede hacer `sudo` sin contraseña. Es lo
   que Ansible necesita para trabajar. AWX entra en ellas por SSH con **tu propia
   clave**, que no es la de ningún compañero.
-- **Headlamp** te enseña tu *namespace* de Kubernetes. Ahí tienes tu clave SSH
-  (el secreto `ansible-clave`) y tu inventario ya relleno (el ConfigMap
-  `ansible-inventario`). Sólo los necesitas si ejecutas en local.
 
 ### Por qué está montado así
 
@@ -137,15 +124,9 @@ del clúster. Rompe lo que quieras: no afecta a nadie más.
 
 ## Dónde se entra
 
-| Para qué                          | Dirección                     |
-|-----------------------------------|-------------------------------|
-| Ejecutar tus *playbooks*          | https://awx.ivanosuna.com     |
-| Ver tu espacio en Kubernetes      | https://cluster.ivanosuna.com |
-| Tu identidad                      | https://iam.iochannel.tech    |
-| Bases de datos desde el navegador | https://bbdd.ivanosuna.com    |
+Todo se hace desde AWX: **https://awx.ivanosuna.com**
 
-**Las tres primeras usan el mismo usuario y la misma contraseña.** El usuario es
-`alumnoN`. La contraseña te la digo en clase el primer día. No está escrita en
+Entras con tu usuario `alumnoN`. La contraseña te la digo en clase el primer día. No está escrita en
 ningún sitio de este repositorio y no tienes que cambiarla.
 
 Si se te olvida, pídemela. No la busques en el material.
@@ -232,8 +213,8 @@ nada. Necesitas:
 
 - **Podman o Docker**, para el entorno de ejecución.
 - **`ansible-navigator`**: `pip install ansible-navigator`.
-- **Tu clave SSH.** La sacas de tu espacio en Kubernetes y la guardas en
-  `~/.ssh/aula` con permisos `600`. Lo vemos en clase.
+- **Tu clave SSH**, guardada en `~/.ssh/aula` con permisos `600`. En clase
+  vemos cómo conseguirla.
 
 `proyectos/ansible-navigator.yml` ya está configurado para eso: monta tu clave
 dentro del contenedor y usa el entorno básico.
