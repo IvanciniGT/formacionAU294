@@ -87,15 +87,15 @@ Al terminar el curso, el alumno será capaz de:
 - Automatizar con Ansible las tareas habituales de administración de un
   sistema Linux.
 
-## Diferencias con el laboratorio oficial
+## El laboratorio
 
-El contenido es el del curso oficial, pero el laboratorio no es el entorno
-*online* de Red Hat:
+Cada alumno tiene su propio entorno de prácticas:
 
-- Las máquinas gestionadas son **Rocky Linux** (compatible con RHEL) y
-  **Ubuntu**. Así se practica de verdad el manejo de distribuciones distintas
-  con un mismo *playbook*.
-- Los *playbooks* se ejecutan desde **AWX**, que es el proyecto de código abierto
-  del que sale el *automation controller* de Ansible Automation Platform.
+- Dos máquinas gestionadas, una **Rocky Linux** (compatible con RHEL) y una
+  **Ubuntu**, para escribir *playbooks* que funcionen en distribuciones de
+  familias distintas.
+- **AWX** para ejecutar los *playbooks*. Es el proyecto de código abierto del
+  que sale el *automation controller* de Red Hat Ansible Automation Platform.
 
-Los detalles están en el [README](../README.md) del repositorio.
+Cómo se entra y cómo está montado se explica en el [README](../README.md) del
+repositorio.
