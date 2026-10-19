@@ -87,19 +87,6 @@ Al terminar el curso, el alumno será capaz de:
 - Automatizar con Ansible las tareas habituales de administración de un
   sistema Linux.
 
-## Reparto orientativo por días
-
-El temario oficial está pensado para cuatro días. Aquí tenemos cinco sesiones
-de cinco horas, así que el reparto es una guía y se ajusta al ritmo del grupo.
-
-| Día | Fecha        | Contenidos                                                                             |
-|-----|--------------|----------------------------------------------------------------------------------------|
-| 1   | Lunes 19     | Bienvenida y laboratorio. Capítulo 1 y comienzo del 2: inventarios y primer *playbook* |
-| 2   | Martes 20    | Capítulo 2 y capítulo 3: variables, *facts* y Ansible Vault                            |
-| 3   | Miércoles 21 | Capítulos 4 y 5: bucles, condicionales y plantillas                                    |
-| 4   | Jueves 22    | Capítulos 6 y 7: *playbooks* a escala, roles y colecciones                             |
-| 5   | Viernes 23   | Capítulo 8 y un ejercicio final que junta todo lo anterior                             |
-
 ## Diferencias con el laboratorio oficial
 
 El contenido es el del curso oficial, pero el laboratorio no es el entorno
