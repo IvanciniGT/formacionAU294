@@ -1,0 +1,11 @@
+server {
+    listen {{ puerto }};
+    server_name {{ fqdn }};
+    root {{ ruta_web }};
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    {{ otros_parametros | indent(4) }}
+}

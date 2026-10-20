@@ -289,6 +289,7 @@ Esos ficheros que escribimos en ansible usan un lenguaje llamado YAML.
 
   # Después de ese bloque de datos (que entendemos algo así como es que es una cabecera del script) viene la chicha! Las tareas!
   # Y en ansible hay 4 etiquetas para escribir tareas:
+
   pre_tasks:
     - name:         Pretarea 1
     - name:         Pretarea2
@@ -429,7 +430,10 @@ Hay 2 motivos:
         - Notificar a quien competa el trabajo que hemos hecho o si ha habido un error.
 
 
-- Pero hay otra cosita a nivel funcional que cambia... MAÑANA LO DESVELAMOS!
+- Pero hay otra cosita a nivel funcional que cambia... 
+  Los handlers se ejecutan (FLUSH DE LOS HANDLES)  despues de cada bloque de PRE, TASKS o POST
+  De hecho el mismo handler puede eser ejecutado varias veces, una después de pre, otra despues de las post o despues de las tasks. Lo
+  Lo que si se garantiza es que detrás de cada bloque solo se ejecutan q única vez!
 
 ## HANDLERS
 Hemos hablado que había 4 bloques donde definir tareas: pre_tasks, tasks, post_tasks y handlers.
@@ -438,6 +442,8 @@ He hablado de los tres primeros, pero no del último:
 ```yaml
 handlers:
   - name:      Tarea 1
+    modulo:
+        configuración: QUE SON LOS QUE HACEN REALMENTE LOS TRABAJOS (en ansible hay más de 8k-9k)
   - name:      Tarea 2
   - name:      Tarea 3
 ```
@@ -460,12 +466,12 @@ Y se pueden activar de 2 formas:
 tasks:
     - name: Asegurar que el nginx queda instalado en la versión que quiero
     - name: Asegurar que el nginx queda con la configuración que quiero
-      notify: Asegurar que el nginx es reiniciado
+      notify: Reiniciar el NGINX
     - name: Asegurar que el nginx sirve una páginas por defecto que yo quiero (error de no encontrado...)
-      notify: Asegurar que el nginx es reiniciado
+      notify: Reiniciar el NGINX
 
 handlers:
-    - name: Asegurar que el nginx es reiniciado
+    - name: Reiniciar el NGINX
 # Con notify especificamos handlers que deben ejecutarse SOLO SI la tarea provoca un cambio en el entorno.
 ---
 # Forma guay: Usando eventos:
@@ -477,7 +483,7 @@ tasks:
       notify: CAMBIO_EN_CONFIGURACION
 
 handlers:
-    - name: Asegurar que el nginx es reiniciado
+    - name: Reiniciar el NGINX
       listen: CAMBIO_EN_CONFIGURACION  # Esto es un evento
 ```
 

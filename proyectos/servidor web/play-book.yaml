@@ -1,0 +1,117 @@
+- name:                       Instalación y Configuración de NGINX y despliegue de la Web
+  hosts:                      all
+  # gather_facts:               true # Esto traería la distro del host.... JUNTO CON OTRAS 500 caracteristicas que no necesito
+                                     # Y si traigo todo, solo. el gather facts puede tardar entre 20-30 segundos en ejecutarse.
+  # become:                     true # Si lo pongo aqui ya no tengo que ponerlo abajo.
+                                     # MALA PRACTICA!!!! Todo lo que haga debe ser con permisos de superusuario ? RARO!
+                                     # Mejor es identificar las tareas que si lo necesitan y poner el become solo en esas.
+  vars:
+    nginx:
+        version:
+            name:          "a.b.c"           # Default que puede sobreescribirse a nivel de cada distro (o no)
+            matching:      ">="              # = (= default)
+        redhat:                              # Esta etiqueta es opcional (si se tira de repos oficiales y quiero la ultima version)
+            version:      
+                name:      "a.b.c"
+                matching:  ">="
+            repo:
+                url:       "http://example.com/nginx.repo"
+                key:       "http://example.com/nginx.repo.key"
+        ubuntu:
+            version:      
+                name:      "a.b.c"      
+                matching:  ">="              # La version también es opcional (si uso la de arriba)
+            repo:                            # Repo es opcional si uso el oficial de la distro
+                url:       "http://example.com/nginx.repo"
+                key:       "http://example.com/nginx.repo.key"
+
+    web:
+      puerto:               80
+      nombre_servidor:      "example.com"
+      carpeta_web:          "/var/www/miweb"
+      parametros_nginx:     |-
+                                // NGINX admite otros 500 parametros de configuración:
+                                // Tamaño máximo de upload
+                                client_max_body_size 10M;
+                                // Tiempo máximo de ejecución de una solicitud
+                                client_body_timeout 10s;
+                                // Tiempo máximo de espera para recibir el cuerpo de la solicitud
+                                client_body_timeout 10s;
+                                client_header_timeout 10s;
+      repo:                 "https://git.example.com/miweb.git"
+      chequeos:
+        - path:             /salud
+          respuesta:       
+            status_code:    200
+            texto:          "El sitio está funcionando ok"
+
+    dependencias:
+      git:
+          version:
+              name:          "1.7.1"
+              matching:      ">="
+      curl:                  {}
+      rsync:                 {}
+          
+
+  pre_tasks:
+    - name:                   Obtener la distribución del sistema operativo que tiene el host 
+                              # (SOLO LA DISTO, no el resto de datos del host)... NO QUEREMOS EL GATHER FACTS COMPLETO
+    - name:                   Asegurar que git está instalado en el host (para poder descargar la web de un repo de git)
+
+  tasks:
+    - name:                   Asegurar que tenemos los repos de nginx configurados en el host (con sus claves)
+      when:                   # Cuando me han pasado repos específicos. Si tiran de repos oficiales no. -> CONDICIONAL!
+      become:                 true # Necesito permisos de superusuario para poder hacer esta tarea.
+                              # Mi problema no es mirar si tengo esos permisos. NECESITO ESOS PERMISOS.
+                              # El problema es de quién ejecute el playbook... 
+                              # más vale que lo esté ejecutando con un usuario que tenga permisos de superusuario.
+                              # Como puedo convertirme en superusuario? sudo....    su - root
+                              # Hay muchas formas de poder convertirme en superusuario. Cual uso? NO ES MI PROBLEMA!
+                              # Es problema del tio que ejecute esto.. Que diga como en SU ENTORNO QUE ES SUYO NO MIO
+                              # Un usuario se transforma en superusuario.
+    - name:                   Actualizar los repos del sistema operativo, para que nos encuentre la versión de nginx que nos han pedido
+      become:                 true 
+                              # Cuando ejecutemos el playbook, EL JUEVES, nos daremos cuenta que esta tarea ^^^^ tiene un problema!
+                              # Es que estado acabará esta tarea cuando se ejecute? OK, CHANGED
+                              # Esta tarea es muy especial. De hecho, mirar la nomenclatura que hemos usado para nombrarla.... 
+                              # Qué paradigma hemos usado? Imperativo.
+                              # De hecho esta tarea siempre acaba en state: CHANGED. Siempre provoca cambio!
+                              # Esto tendrá un impacto. Cuando ejecute el playbook la segunda vez, está tarea seguirá diciendo CHANGED
+                              # Y veré que el playbook ha provocado cambios.
+                              # Y eso me DESPISTARÁ DE NARICES.
+                              # La pregunta no es si la tarea provoca cambios... Sino si me interesa CONTROLAR O NO ESOS CAMBIOS.
+                              # Considero YO HUMANO que un apt update (actualizar los repos) ha provocado un cambios REAL en la máquina relativo a lo que es LA INSTALACION DEL NGINX?
+      changed_when:           false # No quiero que NUNCA se notifique que esta tarea ha provocado cambios. No porque no los provoque...
+                              # Sino porque no me interesa que se considere un cambio relevante para el playbook. 
+    - name:                   Asegurar que nginx queda instalado en el host en la versión que me interesa
+                              # Este es el que ejecutará el dnf o el yum o el apt...
+      become:                 true
+    - name:                   Asegurar que tenemos el fichero de configuración de nginx para mi app en la carpeta buena
+      become:                 true
+                              # Ya ya.. pero si es nuevo... quiero un backup del anterior
+                              # Este playbook no restaurará el sistema en caso de problemas.
+                              # Si quisiera automatizar eso, CREARIA UN PLAYBOOK NUEVO PARA ELLO: Recovery Playbook
+                              # Pero si es responsabildiad de este proporcionar todo lo necesario para poder realizar ese recovery en caso de fallo.
+                              # El modulo template añade mucha funcionalidad... entre ellas la capa de backup automático del fichero anterior.
+    - name:                   Asegurar que tenemos la última versión del repositorio de git descargada en local
+                              # Otra cosa será lo que haya desplegado en el nginx (la web)... de esa tendremos que hacer nosotros un backup manual...
+                              # Pero no siempre. Solo cuando lo ultimo que descargue sea diferente de lo que ya estaba desplegado.
+
+
+  post_tasks:
+    - name:                   Comprobar si el proceso de nginx está corriendo
+    - name:                   Comprobar si el puerto configurado está escuchando
+    - name:                   Comprobar si llamando a la ruta configurada para chequeos desde local, funciona.
+                                # curl http://dominio:80/ruta_de_chequeo // DESDE LA PROPIA MAQUINA
+    - name:                   Comprobar si el puerto es accesible desde fuera (FIREWALL) TELNET
+      delegate_to:            localhost
+    - name:                   Comprobar si el DNS está bien configurado PING fqdn
+      delegate_to:            localhost
+    - name:                   Comprobar si la web responde correctamente desde fuera en la ruta configurada
+                                # curl http://dominio:80/ruta_de_chequeo // DESDE UNA MAQUINA EXTERNA
+      delegate_to:            localhost
+
+  handlers:
+    - name:                   Nombre
+      listen:                 NOMBRE_EVENTO
