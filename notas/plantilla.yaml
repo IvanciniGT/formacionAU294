@@ -7,7 +7,7 @@
 # - GitHub Actions : usa YAML para definir flujos de trabajo
 # - Docker Compose : usa YAML para definir servicios
 # - Spring : usa YAML para definir configuraciones
-# - Ubuntu: Toda la configruación de red (netplan) se define en YAML
+# - Ubuntu: Toda la configuración de red (netplan) se define en YAML
 
 # Lo primero: PODEMOS PONER COMENTARIOS : ALELUYA! Con la almohadilla (#) . Lo que haya detrás se considera comentario.
 # Seguimos: YAML... umm suena sospechosamente igual a otros lenguajes que hemos oído más.
@@ -29,7 +29,7 @@
 # NOTA: Hay "horteras", que no saben muy bien lo que están haciendo, que usan la marca ...
 # La marca ... es el indicativo en YAML de FIN DE DOCUMENTO.
 # ESTO NO SE USA NUNCA EN FICHEROS. Solo distrae y confunde.
-# ESTO SE CREA EN YAML PARA OTRA COSA: Cuando mando documentos vía streaming, porred por ejemplo.
+# ESTO SE CREA EN YAML PARA OTRA COSA: Cuando mando documentos vía streaming, por red por ejemplo.
 # En este caso puede pasar tiempo entre que acabo de enviar un documento y comienzo a enviar el siguiente.
 
 ...
@@ -52,7 +52,7 @@ true # TRUE True
 false # FALSE False
 ---
 # NOTA sobre booleanos.
-# En YAML 1.1 (ahopra estamos en la versión 1.2 de la especificación) se admitían como booleanos:
+# En YAML 1.1 (ahora estamos en la versión 1.2 de la especificación) se admitían como booleanos:
 # yes y YES Yes
 # no n NO No
 # on ON On
@@ -87,10 +87,10 @@ escrito #en YAML'
 ---
 # Necesitamos SIMPLIFICAR ESTO
 # Cómo trabajamos realmente con textos: SIEMPRE SIN COMILLAS A NO SER QUE SEA ESTRICTAMENTE NECESARIO PONERLAS (por tener # dentro del texto)
-# Y siempre escribirs así textos con UNA SOLA LINEA!
+# Y siempre escribimos así textos con UNA SOLA LINEA!
 ---
 # Si necesito escribir textos en varias lineas! TACHAN !!!! 
-# YAML ofrece otrs 2 sintaxis alternativas para textos.
+# YAML ofrece otras 2 sintaxis alternativas para textos.
 # Literal
 |-
     Aquí puedo escribir un texto en 
@@ -135,7 +135,7 @@ escrito #en YAML'
 - # Incluso un nodo puede ser otra lista
                    - Subitem 1
                    - 33
- #P ara sublistas, necesitamos sangrar al menos 1 espacio respecto al nivel de la lista principal.
+ # Para sublistas, necesitamos sangrar al menos 1 espacio respecto al nivel de la lista principal.
 - - Subitem1 # Esto es igual a lo de arriba... Puedo empezar la sublista en la linea siguiente o en la misma.
   - Subitem2
 # IMPORTANTE, YAML EXIGE CONSISTENCIA EN EL SANGRADO... EN CADA NIVEL. El sangrado que yo quiera usar.. no se mete. PERO ME PIDE SER CONSISTENTE EN CADA NIVEL
@@ -153,7 +153,7 @@ escrito #en YAML'
 #   Y los programas se guardan en UN SISTEMA DE CONTROL DE CODIGO FUENTE ( Sistemas control de versiones ) . Una herramienta tipo GIT!
 #   Y git es capaz de identificar cambios en un archivo... A NIVEL DE LINEA!
 # Entonces, por qué está la sintaxis? Por 2 motivos:
-# MOTIVO 1: Compatibilidad con JSON. YAML Se ha tragado LITERALMENTE JSON. Es decir, cualquier (99.9%) documento JSON es leído por un parser YAML... es considerado a su vez un document YAML-
+# MOTIVO 1: Compatibilidad con JSON. YAML Se ha tragado LITERALMENTE JSON. Es decir, cualquier (99.9%) documento JSON es leído por un parser YAML... es considerado a su vez un documento YAML.
 # MOTIVO 2: PAra representar LISTAS VACIAS:
 ---
 []
@@ -179,7 +179,7 @@ clave8:
 
 
 # Esta es la pinta más habitual que tendrán los documentos yaml .
-# Mismas regras de sangrado que en las listas
+# Mismas reglas de sangrado que en las listas
 ---
 # NOTAS:
 # Hay una sintaxis alternativa para mapas desordenados:
@@ -255,10 +255,10 @@ usuario:
 # Ahora bien... yo le paso a ANSIBLE este documento de arriba: usuario:... Y FLIPA !
 # Me dice.. que hostias me estas pasando?
 
-# YAML noos ofrece una sintaxis básica. Lo que acabo de contar.
+# YAML nos ofrece una sintaxis básica. Lo que acabo de contar.
 # CADA PROGRAMA QUE USA YAML define su propio ESQUEMA!
 # El esquema de un programa define qué estructura debe tener un documento VALIDO para ese programa.
-# Que marcas / clkaves deben usarse, los tipos de datos asociados, etc.
+# Que marcas / claves deben usarse, los tipos de datos asociados, etc.
 
 ---
 # Ejemplo de YAML de kubernetes:

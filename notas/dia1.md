@@ -1,7 +1,7 @@
 
 # Automatizar!
 
-Automatizar es crear una máquina (o cambiar el comportaiento de una mediante programas) que haga lo que antes hacía un humano con sus manos.
+Automatizar es crear una máquina (o cambiar el comportamiento de una mediante programas) que haga lo que antes hacía un humano con sus manos.
 
 Puedo automatizar el lavado de la ropa (LAVADORA , que incluso le puedo cambiar su comportamiento mediante PROGRAMAS de lavado: frío, prendas delicadas...)
 
@@ -13,7 +13,7 @@ Solo si una tarea la voy a hacer muchas veces, automatizarla trae a cuenta.
 AUTOMATIZAR ES CARO! CREAR PROGRAMAS ES COMPLEJO Y CARO!
 
 En nuestro caso, qué tareas se benefician de automatización:
-- Despliegue de aplicaciones (donde iré sacando muchas versiones y neccesite redesplegar un sistema muchas veces)
+- Despliegue de aplicaciones (donde iré sacando muchas versiones y necesite redesplegar un sistema muchas veces)
 - Configuración de servidores (si solo voy a configurar un servidor... olvídate!)
 - ...
 
@@ -22,13 +22,13 @@ En nuestro caso, qué tareas se benefician de automatización:
 > Tengo una persiana, que subo y bajo con una cuerdita. PROCESO/TAREA MANUAL
 
 Le pongo un motor... y un botoncito para automatizar el subir y bajar de la persiana. 
-Acabo de automatizar una TAREA (el hecho de subir o bajar la persina).
+Acabo de automatizar una TAREA (el hecho de subir o bajar la persiana).
 El proceso es otra cosa... es un conjunto de tareas para un objetivo más grande (propósito).
 
 El proceso está automatizado o sigue requiriendo intervención humana? Sigue necesitando intervención humana. Para qué?
 - Darle al botoncito
 - Mantenimiento del motor
-- Tomar la decisión de cuando subir y bajar la persina (darle al botoncito)
+- Tomar la decisión de cuando subir y bajar la persiana (darle al botoncito)
 - Supervisar la correcta ejecución de la tarea por parte del motor
 
 Así que llegados a este punto hablamos de 2 niveles de automatización: TAREA y PROCESO.
@@ -47,7 +47,7 @@ La configuración del cuándo debe ejecutarse mi programa (AUTOMATIZACIÓN) va p
 
 ## Niveles de procesos
 
-Muchas veces vamos a automatizar no solo tareas (paso 1) sino procesos... PER a su vez, esos procesos serán parte de un PROCESO DE MAYOR ENVERGADURA, que atienda a un propósito MAYOR!
+Muchas veces vamos a automatizar no solo tareas (paso 1) sino procesos... PERO a su vez, esos procesos serán parte de un PROCESO DE MAYOR ENVERGADURA, que atienda a un propósito MAYOR!
 
 > Imaginad que quiero montar un servidor... para desplegarle un nginx. ESO ES UNA TAREA O UN PROCESO?  PROCESO 
 
@@ -60,9 +60,9 @@ Es un proceso que requerirá de MUCHAS TAREAS:
 - Verificación del funcionamiento del nginx
 
 Cada una de esas cosas es una tarea... todas juntas, orquestadas correctamente, constituyen un proceso.
-QUE TIENE UN OBJETIVO, UN PROPOSITO DE ALTO NIVEL, de GRAN ENVERGADURA: PRODUCTO ENTEGRABLE: Un servidor con NGINX operativo
+QUE TIENE UN OBJETIVO, UN PROPOSITO DE ALTO NIVEL, de GRAN ENVERGADURA: PRODUCTO ENTREGABLE: Un servidor con NGINX operativo
 
-> Ahora bien (y esta es la vuelta de tuerca)... para qué estoy montado ese servidor? Me gusta montar servidores nginx?
+> Ahora bien (y esta es la vuelta de tuerca)... para qué estoy montando ese servidor? Me gusta montar servidores nginx?
 
 Quizás lo que quiero es desplegar un nuevo sistema en producción:
 - BBDD
@@ -76,15 +76,15 @@ Ese NUEVO PROCESO tiene un propósito más elevado (UN PRODUCTO de mayor ENVERGA
 Aquí además, empezamos a darnos cuenta de otro concepto.
 Seguramente ese proceso de instalación del nginx lo puedo REUSAR en otros despliegues o proyectos similares.
 
-Como parte de la autoamtización, estará bien tener esto en cuenta... para dotar a esos PROGRAMAS de cierta FLEXIBILIDAD (que me permnitan reusarlos en distintos contextos y adaptarlos a diferentes necesidades)
+Como parte de la automatización, estará bien tener esto en cuenta... para dotar a esos PROGRAMAS de cierta FLEXIBILIDAD (que me permitan reusarlos en distintos contextos y adaptarlos a diferentes necesidades)
 Sale el concepto de MODULARIDAD (Piezas de un lego que se pueden ensamblar de distintas maneras).
 
-## Sobre herramienats de automatización
+## Sobre herramientas de automatización
 
 Hay un huevo! Muchas solapan entre si.. Muchas se complementan y otras compiten por el mismo espacio en el mercado.
 
 - Terraform: Es una herramienta para automatizar. En general la usamos mucho para automatizar trabajos de infraestructura.
-- Ansible:  contiene herramientas para autoamtizar, especialmente útiles para configuraciones, despliegues (PLANCHADO de infraestructura)
+- Ansible:  contiene herramientas para automatizar, especialmente útiles para configuraciones, despliegues (PLANCHADO de infraestructura)
 
 Puedo usar terraform para planchar infra? SI, pero no es su fuerte.
 Puedo usar ansible para provisionar infra? SI, pero no es su fuerte.
@@ -118,7 +118,7 @@ Ansible aporta 2 cosas:
 - Gestión de INVENTARIOS OUT OF THE BOX.
   Si antes quería reusar un script (programa) para distintos entornos, tenía que currarme yo una forma de hacer llegar a ese programa configuraciones para cada entorno (ficheros de texto, con props que YO DEFINIA; variables de entorno... argumentos que pasaba por línea de comandos). LO QUE FUERA, YO ME LO CURRABA!
   Esto tiene varios problemas:
-  - FALTA DE ESTANDARIZACION. Si yo lo hago, lo haré como de la gana... y será distinto de como lo haga otra persona.
+  - FALTA DE ESTANDARIZACION. Si yo lo hago, lo haré como me dé la gana... y será distinto de como lo haga otra persona.
   - DIFICULTAD DE REUSO. Cada persona en la organización, en cada proyecto acababa tomando sus propias decisiones.
 
 El tema de INVENTARIOS lo veremos el jueves (RAZONABLEMENTE SENCILLO).
@@ -141,7 +141,7 @@ El paradigma declarativo lo ha petado! Lo adoramos... Y en partes iguales, cada 
 
 ## Paradigmas de programación
 
-Básicamente un paradigma de programación es un nombre hortera que los desarroladores de software ponemos a las formas en las que usamos un lenguaje. Pero.. ni siquiera es algo propio de los lenguajes de programación. En los lenguajes naturales (los que hablamos los humanos) está el mismo concepto.
+Básicamente un paradigma de programación es un nombre hortera que los desarrolladores de software ponemos a las formas en las que usamos un lenguaje. Pero.. ni siquiera es algo propio de los lenguajes de programación. En los lenguajes naturales (los que hablamos los humanos) está el mismo concepto.
 
 > Felipe, pon una silla debajo de la ventana.      IMPERATIVO
 
@@ -149,18 +149,18 @@ Estamos muy acostumbrados a hablar con las máquinas en lenguaje imperativo. Per
 
 Para conseguir que ese "mandato" (orden) Que estamos dando a Felipe funcione en una variedad de escenarios (dado que nuestro programa lo querremos ejecutar muchas veces y no controlamos totalmente el estado inicial en el que puede estar nuestro sistema/entorno al principio), empezamos con el guarreo típico de los lenguajes imperativos.
 
-> FELIPE, "COMPOBACION DE LA HABITACION" SUBRUTINA/FUNCION/PROCEDIMIENTO
+> FELIPE, "COMPROBACION DE LA HABITACION" SUBRUTINA/FUNCION/PROCEDIMIENTO
     > FELIPE, IF HAY ALGO QUE NO SEA SILLA DEBAJO DE LA VENTANA THEN
         > QUÍTALO!                                     IMPERATIVO
     > Felipe, IF NOT SILLA (Condicionales) IF SILLA == NULO THEN
         > GOTO IKEA                                    IMPERATIVO
-        > COMPRA UN SILLA                              IMPERATIVO
+        > COMPRA UNA SILLA                              IMPERATIVO
 
 > FELIPE, "COLOCACION DE LA SILLA"      SUBRUTINA/FUNCION/PROCEDIMIENTO
 > Felipe, IF NOT SILLA DEBAJO DE LA VENTANA THEN   CONDICIONAL
     > Felipe, pon una silla debajo de la ventana.  IMPERATIVO
 
-> Felipe, ejecuta: "COMPOBACION DE LA HABITACION" + "COLOCACION DE LA SILLA"  IMPERATIVO
+> Felipe, ejecuta: "COMPROBACION DE LA HABITACION" + "COLOCACION DE LA SILLA"  IMPERATIVO
 
 Para conseguir que mi programa (lo que quiero que felipe haga) funcione con independencia de cómo se encuentre la habitación, necesito ir metiendo por ahí TODOS LOS POTENCIALES ESCENARIOS en los que se me ocurre que la habitación podría estar antes de ejecutar la orden.
 
@@ -175,11 +175,11 @@ Es una propiedad de algunas operaciones matemáticas. Cuando una operación se a
 - -0
 - Valor absoluto
 
-En mundo del desarrollo de software decimos que una operación es **idempotente** si con independencia del estado inicial del sistema, aplicar la operación varias veces produce el mismo resultado.
+En el mundo del desarrollo de software decimos que una operación es **idempotente** si con independencia del estado inicial del sistema, aplicar la operación varias veces produce el mismo resultado.
 
 Con el script (PROGRAMA) que hemos creado para Felipe (y sus condicionales asquerosos) lo que buscábamos es que con independencia del estado inicial de la habitación, tras ejecutar el programa siempre acabe la habitación en el mismo estado final, con la silla debajo de la ventana.
 
-Eso es asqueroso. Pero hemos muy acostumbrados a ello: INDEFENSIÓN APRENDIDA.
+Eso es asqueroso. Pero estamos muy acostumbrados a ello: INDEFENSIÓN APRENDIDA.
 
 # Alternativa: LENGUAJE DECLARATIVO:
 
@@ -192,13 +192,13 @@ Acabo de pasarle la pelota a Felipe: le digo el estado final que quiero, no los 
 
 Él es el responsable de DETERMINAR EL PLAN DE EJECUCION NECESARIO, en base al estado inicial de la habitación para conseguir lo que le he pedido.
 
-Y por eso EL PARADIGMA DECLARATIVO LO HA PETADO.Para esto necesito a un Felipe MAS LISTO, CON MAS CONOCIMIENTO.
+Y por eso EL PARADIGMA DECLARATIVO LO HA PETADO. Para esto necesito a un Felipe MAS LISTO, CON MAS CONOCIMIENTO.
 BIEN: CONTRATESE!
 
 El Felipe TONTO era el python, bash, ps1... que por si mismos (out-of-the-box) no saben muchas cosas... les puedo pedir lo que quiera SI SE LO EXPLICO DE ANTEMANO Y PASO A PASO!
 El Felipe más LISTO es ANSIBLE, porque sabe muchas cosas por sí mismo (out-of-the-box) y puede determinar el plan de ejecución necesario para conseguir el estado final que le pido.
 A este Felipe listo ya hay gente que se lo ha explicado despacito! 
-De hecho a Felipe se las an explicado en lenguaje imperativo (PYTHON).
+De hecho a Felipe se las han explicado en lenguaje imperativo (PYTHON).
 
 ---
 
@@ -206,7 +206,7 @@ Ansible ofrece un lenguaje para crear SCRIPTS (AUTOMATIZACIONES). Ese lenguaje N
 Igual que la bash o que python. EIN??!?!?!
 Y dónde está la gracia?
 
-Realmente Ansible NO SABE HACER LA "O" con un canuto. estorpe a rabiar.
+Realmente Ansible NO SABE HACER LA "O" con un canuto. es torpe a rabiar.
 Todo el trabajo que es capaz de hacer le viene explicado en lo que llamamos MODULOS.
 Lo que hago es pedirle a ANSIBLE QUE EJECUTE UN TRABAJO mediante un MODULO!
 
@@ -222,15 +222,15 @@ ANSIBLE PERMITE CREAR SCRIPTS, usando lenguaje IMPERATIVO.
 Pero cada tarea de ese SCRIPT es realizada (ejecutada) usando un MODULO... y la mayor parte (NO TODOS) de esos MODULOS ofrecen un lenguaje DECLARATIVO.
 
 ESTO NOS AYUDA A CREAR SCRIPT IDEMPOTENTES de forma más sencilla que cuando usábamos lenguajes 100% IMPERATIVOS.
-ANSIBLE NO ME REGALA LA IDEMPOTENCIA (hay herramientas que : TERRAFORM, KUBERNETES...), PERO ME LA FACILITA MUCHO!
+ANSIBLE NO ME REGALA LA IDEMPOTENCIA (hay herramientas que sí: TERRAFORM, KUBERNETES...), PERO ME LA FACILITA MUCHO!
 
 Y cuando automatizamos es clave tener idempotencia! Que nuestros scripts sean idempotentes.
 
 > Tengo cientos de servidores.. que quiero gestionar.
 
-Les quiero aplciar una determinada configuración. Tengo garantizado al 100% que todos parten exactamente de la misma configuración? y del mismo estado inicial? NI DE BROMA! 
+Les quiero aplicar una determinada configuración. Tengo garantizado al 100% que todos parten exactamente de la misma configuración? y del mismo estado inicial? NI DE BROMA! 
 
-Por eso, necesito un programa que funciones con independencia del estado inicial en el que se encuentre cada servidor.
+Por eso, necesito un programa que funcione con independencia del estado inicial en el que se encuentre cada servidor.
 
 > Tengo un programa que instala algo.
 
@@ -304,7 +304,7 @@ Esos ficheros que escribimos en ansible usan un lenguaje llamado YAML.
     - name:         Handler 2
   # La estructura interna de cada bloque es la misma. Cada bloque de esos define una LISTA SECUENCIAL! DE TAREAS QUE DEBEN EJECUTARSE EN ORDEN.
   # Cada tarea tendrá dentro su configuración. En la configuración de cada tarea, tendremos:
-  # - name:         Mensaje descriptivo de la tarea: IMPORTANTISISMO.... BUENA NOMENCLATURA PARA LOS NAMES: CRITICO!
+  # - name:         Mensaje descriptivo de la tarea: IMPORTANTISIMO.... BUENA NOMENCLATURA PARA LOS NAMES: CRITICO!
   # - Más cosas... en su mayoría que tienen que ver con control de flujo: LENGUAJE IMPERATIVO
   #      - when:        Cuando debe ejecutarse la tarea       ESTE ES EL IF        EL CONDICIONAL! NO ME LOS QUITO A ESTE NIVEL
   #                                                                                 ME LOS QUITO A NIVEL DE CADA TAREA POR DENTRO
@@ -318,19 +318,19 @@ Esos ficheros que escribimos en ansible usan un lenguaje llamado YAML.
   # En ansible hay MILES! Pero.. muchos MILES! de módulos. MUCHOS MILES!
   # Evidentemente en el curso NO VAMOS A APRENDER TODOS LOS MODULOS. De hecho no vamos a aprender ni el 1% de ellos.
   # Vamos a ir usando algunos... al final del curso, habremos usado unos 30-40 módulos... los más habituales al trabajar con entornos linux (en especial RHEL).
-  # El objetivo o es aprender todos los módulos. ES TAREA IMPOSIBLE!
+  # El objetivo no es aprender todos los módulos. ES TAREA IMPOSIBLE!
   # El objetivo es aprender a ser capaces de trabajar CON CUALQUIER MODULO!
   # En paralelo iremos aprendiendo algunos de ellos... importantes, de los que se usan siempre.
   # Cada módulo requerirá de una configuración específica, que dependerá de la tarea que queramos realizar con ese módulo.
   # Y esos módulos son los que en su mayoría (NO TODOS) hablan lenguaje declarativo.
   # Ejemplo:
-   - name:         Asegurar que directorio queda creado como y quiero en el sistema de archivos 
+   - name:         Asegurar que directorio queda creado como yo quiero en el sistema de archivos 
      file:
        path:       /tmp/mi_directorio
        mode:       '0755'
        state:      directory             # Tengo una propiedad llamada state: ESTA PROPIEDAD INDICA EL ESTADO FINAL DESEADO!
                                          # Que tipo de lenguaje es esto? DECLARATIVO
-    # El 95 de los módulos van a tener propiedad state: que indica el estado final deseado.
+    # El 95% de los módulos van a tener propiedad state: que indica el estado final deseado.
     # Estos son los modulos que SI HABLAN LENGUAJE DECLARATIVO.
     # Habrá algunos que NO, que hablan imperativo. Habrá que lidiar con ellos.
 
@@ -339,7 +339,7 @@ Esos ficheros que escribimos en ansible usan un lenguaje llamado YAML.
 El script: Secuencia de tareas que deben ejecutarse es IMPERATIVO: Va en orden... lleva condicionales, tratamiento de errores...
 Lo que hace la tarea por dentro es en su mayoría DECLARATIVO: Indica el estado final deseado, no cómo llegar a él.
 
-Tenemos pre-tareas (pre-tasks), post-tareas (post-tasks), tareas normales (tasks) y handlers.Para qué sirve esto?
+Tenemos pre-tareas (pre-tasks), post-tareas (post-tasks), tareas normales (tasks) y handlers. Para qué sirve esto?
 
 Los pre-tasks, las tasks y las post-tasks funcionalmente SON IGUALES! IDENTICAS. Simplemente se ejecutan en orden.
 Primero las pre-tasks, luego las tasks normales y finalmente las post-tasks.
@@ -406,14 +406,14 @@ Los 3 ejemplos ejecutarían las mismas tareas en el mismo orden: Tarea 1, Tarea 
 Hay 2 motivos:
 - Organizar mejor conceptualmente el playbook!         IMPORTANTISIMO!
   Esto hará que a futuro sea más fácil entender y mantener el playbook... cuando lleguen cambios.  LLEGARÁN! ESTA ESCRITO!
-    - PRE TAREAS        Tareas necesarioas para poder acometer las tareas principales de mi playbook
+    - PRE TAREAS        Tareas necesarias para poder acometer las tareas principales de mi playbook
     - TAREAS            Las tareas necesarias para el objetivo principal de mi playbook
     - POST TAREAS       Tareas adicionales una vez el trabajo esté acabado.
 
 > Ejemplo: Quiero un playbook que instale/configure un nginx en un rhel
 
         PRETAREAS:
-        - Instalar en la máquina paquería requerida por el nginx (curl...)
+        - Instalar en la máquina paquetería requerida por el nginx (curl...)
         - Dar de alta en los repositorios de la máquina, uno que tenga la versión de nginx que quiero instalar
         - Verificar que el servidor tiene recursos necesarios y suficientes (red, cpu...) para poder correr el nginx.
 
@@ -461,7 +461,7 @@ tasks:
     - name: Asegurar que el nginx queda instalado en la versión que quiero
     - name: Asegurar que el nginx queda con la configuración que quiero
       notify: Asegurar que el nginx es reiniciado
-    - name: Asegurar que el nginx sirve una páginas por defecto que yo quiero (error pde no encontrado...)
+    - name: Asegurar que el nginx sirve una páginas por defecto que yo quiero (error de no encontrado...)
       notify: Asegurar que el nginx es reiniciado
 
 handlers:
@@ -473,7 +473,7 @@ tasks:
     - name: Asegurar que el nginx queda instalado en la versión que quiero
     - name: Asegurar que el nginx queda con la configuración que quiero
       notify: CAMBIO_EN_CONFIGURACION
-    - name: Asegurar que el nginx sirve una páginas por defecto que yo quiero (error pde no encontrado...)
+    - name: Asegurar que el nginx sirve una páginas por defecto que yo quiero (error de no encontrado...)
       notify: CAMBIO_EN_CONFIGURACION
 
 handlers:
@@ -482,17 +482,17 @@ handlers:
 ```
 
 Puede ser que el mismo evento desencadene la ejecución de varios handlers diferentes.
-Esto ayuda a aplicar un principio de desarrollo de software, del que mañana hablaré llamado: SoC: Principio de separación de reocupaciones.
+Esto ayuda a aplicar un principio de desarrollo de software, del que mañana hablaré llamado: SoC: Principio de separación de preocupaciones.
 --- 
 
 # PLAYBOOK = SCRIPT = PROGRAMA
 
-Que un programa funcione, no es meritoso, se da por descontado.
+Que un programa funcione, no es meritorio, se da por descontado.
 El objetivo NO ES QUE FUNCIONE BIEN... eso se da por descontado!
 
 ESTO A VECES NOS CUESTA ENTENDERLO . MUCHO!
 
-El objetivo cuando creamos software (y es lo que estamos haciendo) no es que funcione bien... es que se barato mantenerlo a medio y largo plazo!
+El objetivo cuando creamos software (y es lo que estamos haciendo) no es que funcione bien... es que sea barato mantenerlo a medio y largo plazo!
 ESTA ES LA CLAVE! Igual que un coche!, cuando los ingenieros lo diseñan.
 
 Lo cambio de industria:
