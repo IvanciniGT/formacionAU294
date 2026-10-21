@@ -1,22 +1,56 @@
 
 - name:                   Comprobar si el proceso de nginx está corriendo
+  ansible.builtin.service_facts:
+  # rellena una variable llamada ansible_facts.services con los servicios del sistema
+  # Es un listado... dentro de él tenemos cada servicio. y dentro de cada servicio la propiedad state.
+  # Si el servicio está corriendo status será running
+  # Esto es una prueba?
+  failed_when:           ansible_facts.services['nginx'].state != 'running'
   tags: 
           - prueba
+  # Módulo que se llama: service_facts
+  # Podría hacer un ps -eaf | grep nginx.... Vamos a por el otro que es más guay
 
 - name:                   Comprobar si el puerto configurado está escuchando
+  ansible.builtin.wait_for: # Mira si un puerto está abierto
+    port:                 "{{ web.puerto }}"
+    delay:                10
+    timeout:              30 # Por defecto son 300. No quiero al ansible contando ovejas si no arranca
+    state:                started
+    # host:               127.0.0.1 # Queremos ver si en la máquina el puerto está abierto
+                          # Aquí miro localhost, porque la prueba la estoy ejecutando desde el remoto
   tags:
           - prueba
+  # modulo wait_for
 
 - name:                   Comprobar si llamando a la ruta configurada para chequeos desde local, funciona.
   tags:
           - prueba
                             # curl http://dominio:80/ruta_de_chequeo // DESDE LA PROPIA MAQUINA
-- name:                   Comprobar si el puerto es accesible desde fuera (FIREWALL) TELNET
-  delegate_to:            localhost
+
+- name:                   Comprobar si el puerto es accesible desde fuera (FIREWALL) 
+  ansible.builtin.wait_for:
+    port:                 "{{ web.puerto }}"
+    delay:                10
+    timeout:              30
+    state:                started
+    host:                 "{{ ansible_host }}" # Pero el puerto que quiero ver si está abierto es en el remoto
+                                               # Variable que tiene ansible de serie donde se guarda la IP del host remoto sobre el que ha ejecutado las tareas
+                                               # Os imaginais donde se definirá esa variable? INVENTARIO
+  delegate_to:            localhost # La prueba la ejecuto desde la máquina donde ejecuta ansible, no desde el remoto
   tags:
           - prueba
 
-- name:                   Comprobar si el DNS está bien configurado PING fqdn
+- name:                   Comprobar si el DNS está bien configurado PING nslookup | getent hosts <fqdn>
+  # Ejecutar UN comando: 
+  # Cuando ejecuto comandos o scripts (command / shell) hay un par de cosas a tener en cuenta:
+  # - El modulo SIEMPRE marca la tarea como changed.
+  # - El módulo (command, shell) pordefecto miran el código de salida del proceso:
+  #   - Si es 0 el comando ha tenido éxito -> CHANGED
+  #   - Si es distinto de 0                -> FAILED
+  ansible.builtin.command:
+    cmd:                  "nslookup {{ web.nombre_servidor }}"
+  changed_when:           false
   delegate_to:            localhost
   tags:
           - prueba
@@ -26,3 +60,6 @@
   delegate_to:            localhost
   tags:
           - prueba
+
+
+# modulo uri
