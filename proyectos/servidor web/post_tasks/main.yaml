@@ -1,0 +1,28 @@
+
+- name:                   Comprobar si el proceso de nginx está corriendo
+  tags: 
+          - prueba
+
+- name:                   Comprobar si el puerto configurado está escuchando
+  tags:
+          - prueba
+
+- name:                   Comprobar si llamando a la ruta configurada para chequeos desde local, funciona.
+  tags:
+          - prueba
+                            # curl http://dominio:80/ruta_de_chequeo // DESDE LA PROPIA MAQUINA
+- name:                   Comprobar si el puerto es accesible desde fuera (FIREWALL) TELNET
+  delegate_to:            localhost
+  tags:
+          - prueba
+
+- name:                   Comprobar si el DNS está bien configurado PING fqdn
+  delegate_to:            localhost
+  tags:
+          - prueba
+
+- name:                   Comprobar si la web responde correctamente desde fuera en la ruta configurada
+                            # curl http://dominio:80/ruta_de_chequeo // DESDE UNA MAQUINA EXTERNA
+  delegate_to:            localhost
+  tags:
+          - prueba

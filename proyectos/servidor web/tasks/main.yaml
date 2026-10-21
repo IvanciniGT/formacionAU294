@@ -1,0 +1,38 @@
+
+- name:                   Asegurar que nginx queda instalado en el host en la versión que me interesa
+  ansible.builtin.include_tasks:
+    file:                 instalacion_paquete/main.yaml
+          # La tarea de instalación necesita:
+          # - paquete
+          # - version (opcional)
+          # - operador_version (opcional)
+          # - repositorio (opcional)
+          # - clave (opcional)
+          # Nuestras variables NO SE LLAMAN ASI.
+          # Lo que podemos hacer es definir ESAS VARIABLES SOLO PARA ESTA TAREA
+  vars:
+    paquete:              nginx
+    version:              "{{nginx[ familia_sistema_operativo ].version.name | default( nginx.version.name ) | default(omit) }}"
+    operador_version:     "{{nginx[ familia_sistema_operativo ].version.matching | default( nginx.version.matching ) | default('=') }}"
+    repositorio:          "{{nginx[ familia_sistema_operativo ].repo.url | default(omit)}}"
+    clave:                "{{nginx[ familia_sistema_operativo ].repo.key | default(omit) }}"
+  become:                 true
+  tags:
+          - instalacion
+
+
+- name:                   Asegurar que tenemos el fichero de configuración de nginx para mi app en la carpeta buena
+  become:                 true
+                          # Ya ya.. pero si es nuevo... quiero un backup del anterior
+                          # Este playbook no restaurará el sistema en caso de problemas.
+                          # Si quisiera automatizar eso, CREARIA UN PLAYBOOK NUEVO PARA ELLO: Recovery Playbook
+                          # Pero si es responsabildiad de este proporcionar todo lo necesario para poder realizar ese recovery en caso de fallo.
+                          # El modulo template añade mucha funcionalidad... entre ellas la capa de backup automático del fichero anterior.
+  tags:
+          - configuracion
+
+- name:                   Asegurar que tenemos la última versión del repositorio de git descargada en local
+                          # Otra cosa será lo que haya desplegado en el nginx (la web)... de esa tendremos que hacer nosotros un backup manual...
+                          # Pero no siempre. Solo cuando lo ultimo que descargue sea diferente de lo que ya estaba desplegado.
+  tags:
+          - despliegue

@@ -138,7 +138,7 @@ git:
 - Cuando queremos actualizar la web
 - Para arreglar el sistema si algún graciosillo ha entrado y ha borrado o cambiado algo que no debía
 - Para pegarle un reinicio a mi nginx si se ha quedado colgado
-- Para monitorizar el estado de mi nginx
+- Para comprobar el correcto funcionamiento de mi nginx
 
 QUE HACE EL PLAYBOOK? 
 El playbook no hace un despliegue!
@@ -266,3 +266,57 @@ Pruebas que vamos a hacer a día de HOY:
 - Si consigo llegar al puerto desde fuera (FIREWALL)
 - Si el dns está bien configurado
 
+# TAGS
+
+Qué tipos de tareas hace nuestro playbook? Es decir, tareas de naturalezas distintas:
+- prueba
+- instalacion
+- configuracion
+- despliegue
+- always (Ese tag es especial... es un nombre reservado de ansible)
+  Aunque me pidan ejecutar solo ciertas tarea (tags), las que tengan el tag always se ejecutarán siempre.
+
+
+---
+
+# Instalaciones
+
+Necesitamos instalar:
+- dependencias:
+  - git
+  - curl
+  - rsync
+- nginx
+
+Cada cosa que quiera instalar (paquete) va a requerir del mismo trabajo:
+- Dar de alta claves
+- Dar de alta repos... o no... depende de si los han configurado previamente en los datos que nos pasan
+- Actualizar repos
+- Hacer la instalación
+
+Y además, estamos lidiando con Redhat y Ubuntu... 
+Esas tareas se hacen igual en un redhat y un ubuntu? NO
+
+
+Nos interesará tener:
+- Un conjunto de tareas que sepan instalar un paquete en Redhat  (repos, claves, install...)
+- Un conjunto de tareas que sepan instalar un paquete en Ubuntu  (repos, claves, install...)
+- Una tarea a la que le pueda pedir instalar un paquete y ya dependiendo de la distro invoque las tareas correspondientes (Redhat o Ubuntu)
+- Y esa tarea la puedo llamar normal para el nginx o en bucle para las dependencias 
+
+Lo que en programación tradicional sería CREARME FUNCIONES!
+    installPaqueteEnUbuntu
+    installPaqueteEnRedhat
+
+    installPaquete
+        -> installPaqueteEnUbuntu o installPaqueteEnRedhat dependiendo de la distro
+
+    puedo llamar a la funcion para nginx
+    puedo llamar a la funcion en bucle para las dependencias
+
+En Ansible no existe el concepto de función
+Pero lo podemos hacer bien con el include_tasks de Ansible.
+    Incluyo un fichero de tareas que contega la lógica para instalar un paquete en la distro correspondiente (Redhat o Ubuntu)
+    A su vez ese incluye el fichero de tareas de ubuntu o redhat según corresponda
+
+De alguna forma, esos ficheros que voy a crear son "FUNCIONES"

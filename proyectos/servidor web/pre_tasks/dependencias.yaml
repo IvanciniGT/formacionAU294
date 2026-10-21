@@ -1,0 +1,21 @@
+
+# Dependencias del playbook
+
+- name:                                   Asegurar que las dependencias del playbook están instalado en el host
+  ansible.builtin.include_tasks:
+    file:                                 instalacion_paquete/main.yaml
+  vars:
+    paquete:                              "{{paquete_actual.key}}"
+    version:                              "{{paquete_actual.value[ familia_sistema_operativo ].version.name | default( paquete_actual.value.version.name ) | default(omit) }}"
+    operador_version:                     "{{paquete_actual.value[ familia_sistema_operativo ].version.matching | default( paquete_actual.value.version.matching ) | default('=') }}"
+    repositorio:                          "{{paquete_actual.value[ familia_sistema_operativo ].repo.url | default(omit)}}"
+    clave:                                "{{paquete_actual.value[ familia_sistema_operativo ].repo.key | default(omit) }}"
+  loop:                                   "{{dependencias | dict2items }}"
+  # Eso es un filtro jinja..
+  loop_control:
+    loop_var:                             paquete_actual
+  become:                                 true
+  tags:
+          - always
+# Pero... para instalar nginx, cúantas veces ejecutaba "instalacion_paquete/main.yaml"? 1
+# Y para las dependencias? 1 para cada paquete que necesite instalar.

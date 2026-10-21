@@ -1,0 +1,38 @@
+nginx:
+    version:
+        name:          "a.b.c"           # Default que puede sobreescribirse a nivel de cada distro (o no)
+        matching:      ">="              # = (= default)
+    redhat:                              # Esta etiqueta es opcional (si se tira de repos oficiales y quiero la ultima version)
+        version:      
+            name:      "a.b.c"
+            matching:  ">="
+        repo:
+            url:       "http://example.com/nginx.repo"
+            key:       "http://example.com/nginx.repo.key"
+    debian:
+        version:      
+            name:      "a.b.c"      
+            matching:  ">="              # La version también es opcional (si uso la de arriba)
+        repo:                            # Repo es opcional si uso el oficial de la distro
+            url:       "http://example.com/nginx.repo"
+            key:       "http://example.com/nginx.repo.key"
+
+web:
+  puerto:               80
+  nombre_servidor:      "example.com"
+  carpeta_web:          "/var/www/miweb"
+  parametros_nginx:     |-
+                            // NGINX admite otros 500 parametros de configuración:
+                            // Tamaño máximo de upload
+                            client_max_body_size 10M;
+                            // Tiempo máximo de ejecución de una solicitud
+                            client_body_timeout 10s;
+                            // Tiempo máximo de espera para recibir el cuerpo de la solicitud
+                            client_body_timeout 10s;
+                            client_header_timeout 10s;
+  repo:                 "https://git.example.com/miweb.git"
+  chequeos:
+    - path:             /salud
+      respuesta:       
+        status_code:    200
+        texto:          "El sitio está funcionando ok"

@@ -1,0 +1,47 @@
+
+
+# Chequeos / comprobaciones previas para ver si me planteo ejecutar el playbook si quiera!
+# Decidiré yo que compensa comprobar... PERO SIEMPRE HABRA COSAS QUE COMPROBAR!
+- name:                                   Comprobar que el host tiene una distro soportada por el playbook
+  ansible.builtin.meta:                   end_host # Permite romper EL FLUJO DE EJECUCION normal DEL PLAYBOOK
+  when: # Esto hace que el playbook solo se ejecute cuando la expresión JINJA! que ponga aqui sea TRUE
+        # la familia de SO no sea Debian ni Redhat
+        # ansible_facts.os_family != "Debian" and ansible_facts.os_family != "Redhat"         # !=        ! =
+        # Eso es una expresión JINJA que se evalúa como TRUE o FALSE
+        # Si la expresión da TRUE, el módulo se ejecuta y se corta la ejecución del playbook en este host.
+        # Si la expresión da FALSE, el módulo no se ejecuta (estado SKIPPED)
+        
+        # Eso es una ruina! desde el punto de vista de la mantenibilidad del playbook
+        familia_sistema_operativo not in distros_soportadas    # operador in: Mira si un valor está dentro de los elementos de una lista
+                                                                   # not in: Comprueba si un valor NO está dentro de los elementos de una lista
+
+        # Otros operadores de jinja:
+        # Aritméticos: +, -, *, /, %
+        # Comparación: ==, !=, >, <, >=, <=
+        # Lógicos: and, or, not
+        # Pertinencia: in, not in
+
+        # lower es un FILTRO de Jinja . Los filtros los aplicamos con sintaxis de PIPEs
+        # variable | filtro
+        # Filtros en jinja para textos: 
+        # lower: Convierte el texto a minúsculas
+        # upper: Convierte el texto a mayúsculas
+        # title: Convierte el texto a formato título (primera letra de cada palabra en mayúscula)
+        # capitalize: Convierte la primera letra del texto a mayúscula
+        # replace: Reemplaza una subcadena por otra
+        # trim: Elimina espacios en blanco al inicio y al final del texto
+        # length: Devuelve la longitud del texto
+
+        # Para ver las cosas mejor... podemos agruparlas con paréntesis
+
+        # A pesar de que lo que ponemos en el when es una expresión JINJA, en este caso no ponemos las {{}}.
+        # EIN! IVAN, antes has dicho que siempre hay que poner entre {{}} las expresiones para que jinja las procese
+        # Y ESO ES CIERTO! al 100%
+        # Lo que pasa es que ANSIBLE PONE EN AUTOMATICO las {{}} a lo que ponga en el when.
+        # Entiende siempre que lo que ponemos ahí es una expresión.. y nos ayuda con las {{}} en automático.
+        # No las pongo yo.. pero ansible si! Y a jinja (librería externa), le llega ya con las {{}} puestas.
+        # Esto aveces nos lia.
+        # De hecho, esto es algo que ansible no hace solo en la marca "when", lo hace en muchas otras:
+        # como por ejemplo en los "changed_when", "failed_when", "ignore_errors" , become, etc.
+
+- name:                                   Comprobar que el el repo de git de la web existe y es accesible
