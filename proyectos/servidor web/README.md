@@ -320,3 +320,37 @@ Pero lo podemos hacer bien con el include_tasks de Ansible.
     A su vez ese incluye el fichero de tareas de ubuntu o redhat según corresponda
 
 De alguna forma, esos ficheros que voy a crear son "FUNCIONES"
+
+
+# Despliegue de la web:
+
+- Descargar el repositorio de git en local. La última versión (No consideramos un cambio en la máquina que se haga).
+  - MODULO git
+  Esa descarga la haremos en una carpeta temporal
+      /tmp/web
+- Nos aseguramos que existe la carpeta real de despliegue de la app (la da ahora mismo el usuario que ejecuta el playbook)
+      /var/www/myapp
+      MODULO file
+- Miramos si hay diferencias entre lo descargado y lo que ya está desplegado en la carpeta real de la app.
+  NOTA: en tmp/web habrá una carpeta llamada .git que es de git y que no queremos copiar a la carpeta real de despliegue.
+  Pero en cualquier caso, NO QUEREMOS HACER LA COPIA AUN.. solo ver si hay diferencias:
+    rsync (MODO --dry-run)
+      MODULO synchronize
+- Caso que haya diferencias, backup de lo que hay actualmente en     
+  la carpeta real de despliegue (/var/www/myapp).
+  Podemos llevarlos a ~/home/<usuario>~/backups/ o alguna carpeta similar para tener un historial de backups.
+  Los backpus comprimidos y el archivo en su nombre con un timestamp.
+    MODULO archive
+- Una vez hecho el backup, podemos proceder a copiar los archivos desde /tmp/web a /var/www/myapp.
+    MODULO synchronize
+
+# Nos faltan más cosas:
+
+- Configurar el arranque de servicio automático
+- Reiniciar el servicio web si hay cambios en la configuración o en los archivos desplegados.
+   MODULE : service
+   Se asegura de que el servicio web esté en ejecución y habilitado para el arranque automático.
+
+# Opcional!
+- Si estamos en redhat y hay firewalld activo, asegurarnos de abrir el puerto correspondiente para el servicio web.
+- Si estamnos en ubuntu y hay ufw activo, asegurarnos de abrir el puerto correspondiente para el servicio web.

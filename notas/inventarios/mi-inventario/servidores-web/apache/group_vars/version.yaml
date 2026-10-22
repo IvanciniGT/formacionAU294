@@ -1,0 +1,10 @@
+paquete: apache2
+version: 2.4
+
+repos:
+  ubuntu:
+    url: "http://archive.ubuntu.com/ubuntu"
+    key: "YOUR_KEY_HERE"
+  redhat:
+    url: "http://mirror.centos.org/centos"
+    key: "YOUR_KEY_HERE"

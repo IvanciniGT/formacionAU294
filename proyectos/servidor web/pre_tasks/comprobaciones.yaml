@@ -44,4 +44,55 @@
         # De hecho, esto es algo que ansible no hace solo en la marca "when", lo hace en muchas otras:
         # como por ejemplo en los "changed_when", "failed_when", "ignore_errors" , become, etc.
 
-- name:                                   Comprobar que el el repo de git de la web existe y es accesible
+- name:                   "VARIANTE 1: Comprobar que el el repo de git de la web existe y es accesible"
+  ansible.builtin.uri:
+    url:                  "{{ web.repo }}"
+    method:               GET
+    follow_redirects:     safe
+    status_code:
+                        - 200
+  changed_when:           false
+  delegate_to:            localhost
+
+- name:                   "VARIANTE 2: Comprobar que el el repo de git de la web existe y es accesible"
+  # Esto no tendría sentido hacerlo... lo suyo es modulo uri... o modulo git
+  # Pero quiero enseñar algunos conceptos adicionales de ansible
+  ansible.builtin.shell:
+    cmd:                  |
+                            echo Haciendo peticion a {{ web.repo }}
+                            curl -w '%{http_code}' -s -o /dev/null -L {{ web.repo }}"
+  # Cuando daría fallo este script?
+  # El módulo shell (igual que el módulo command) marca como FAILED la tarea
+  # si el código de salida del script es distinto de 0
+  # En nuestro caso, un 404 seguiría dando exit code 0 a nivel de proceso curl.
+  # Qué tengo que comprobar realmente? Que en la salida estandar: stdout del proceso aparece el código 200
+  # Tengo acceso a la salida estandar del proceso desde ansible? SI
+  # Casi TODOS LOS MODULOS OFRECEN RETURN VALUES
+  # Pero esos return values no son directamente accesibles. Hay truco.
+  # Lo primero que necesitamos es REGISTRAR LA SALIDA DEL MODULO EN UNA VARIABLE
+  register: resultado_curl
+  # Esa variable es un mapa (cuando ejecuto un módulo)
+  # Las claves de ese mapa incluyen los RETURN VALUES definidos en la documentación del módulo
+  # Esa variable puedo usarla en esta tarea o en posteriores tareas
+  # failed_when: "'200' not in resultado_curl.stdout"
+  # El mñódulo shell, igual que command, siempre marca la tarea como CHANGED
+  # Incluso si el script no hace nada o devuelve 0, la tarea se considera cambiada.
+  changed_when: false
+  delegate_to: localhost
+
+- name:                   "Comprobar que la petición curl devolvió 200"
+  ansible.builtin.assert:
+    that:
+      #- "'200' in resultado_curl.stdout"
+      # Notas:
+      # ¿Qué pasaría, dios no lo quiera, si la url del repo contuviera el texto "200"?
+      # Pero devuelve 404. https://github.com/ivanciniGT/formacionAnsible200
+      # Estamos jodidos.. ya que nuestro script, lo primero que hace es: 
+      # echo Haciendo peticion a {{ web.repo }}
+      # Y en la stdout aparecerá el texto "200" y la petición se da por buena
+      # Dónde deberíamos mirar si aparece el texto "200"? En la segunda linea del stdout    fail_msg: "La petición no devolvió 200"
+      - "'200' in resultado_curl.stdout_lines[1]" # Se empieza a contar en el 0
+      # Aqui vemos como acceder a posiciones de una LISTA! en sintaxis jinja
+      # En este caso, no ponemos las llaves {{}}, pasa como con el when, changed_when, etc.
+      # Ansible pone las llaves por mi... pero sigue siendo una expresión jinja completa.
+    success_msg: "La petición devolvió 200"

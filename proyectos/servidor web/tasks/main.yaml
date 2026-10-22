@@ -1,7 +1,6 @@
-
 - name:                   Asegurar que nginx queda instalado en el host en la versión que me interesa
-  ansible.builtin.include_tasks:
-    file:                 instalacion_paquete/main.yaml
+  ansible.builtin.include_role:
+    name:                 instalacion_paquetes
           # La tarea de instalación necesita:
           # - paquete
           # - version (opcional)
@@ -28,6 +27,9 @@
                           # Si quisiera automatizar eso, CREARIA UN PLAYBOOK NUEVO PARA ELLO: Recovery Playbook
                           # Pero si es responsabildiad de este proporcionar todo lo necesario para poder realizar ese recovery en caso de fallo.
                           # El modulo template añade mucha funcionalidad... entre ellas la capa de backup automático del fichero anterior.
+  # ansible.builtin.template:
+  # Ojo que hay truco: 
+  # La carpeta donde dejamos el archivo en redhat y en debian puede ser diferente.
   tags:
           - configuracion
 

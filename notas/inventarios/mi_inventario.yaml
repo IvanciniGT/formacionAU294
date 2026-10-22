@@ -1,0 +1,82 @@
+all:
+  children:
+    servidores_web:
+      children:
+        nginx:
+          hosts:
+            host1.example.com:
+              ansible_host: 192.168.1.1
+              ansible_user: myuser
+              version: 1.18
+              web:
+                puerto:               80
+                nombre_servidor:      "example.com"
+                carpeta_web:          "/var/www/miweb"
+                parametros_nginx:     |-
+                                          // NGINX admite otros 500 parametros de configuración:
+                                          // Tamaño máximo de upload
+                                          client_max_body_size 10M;
+                                          // Tiempo máximo de ejecución de una solicitud
+                                          client_body_timeout 10s;
+                                          // Tiempo máximo de espera para recibir el cuerpo de la solicitud
+                                          client_body_timeout 10s;
+                                          client_header_timeout 10s;
+                repo:                 "https://git.example.com/miweb.git"
+                chequeos:
+                  - path:             /status
+                    respuesta:
+                      status_code:    200
+                      texto:          "El sitio está funcionando ok"
+                  - path:             /performance
+                    respuesta:
+                      status_code:    200
+                      texto:          "El sitio está funcionando ok"
+            host2.example.com:
+          children:
+            produccion:
+              hosts:
+                host1.example.com:
+                host2.example.com:
+                host3.example.com:
+                host4.example.com:
+                host5.example.com:
+                host6.example.com:
+                host7.example.com:
+                host8.example.com:
+                host9.example.com:
+                host10.example.com:
+                host11.example.com:
+                host12.example.com:
+            desarrollo:
+              hosts:
+                host1.example.com:
+                host2.example.com:
+            staging:
+              hosts:
+                host1.example.com:
+                host2.example.com:
+                host3.example.com:
+                host4.example.com:
+                host5.example.com:
+        apache:
+          hosts:
+            host3.example.com:
+            host4.example.com:
+    bbdd:
+      children:
+        postgresql:
+          hosts:
+            host5.example.com:
+            host6.example.com:
+        mariadb:
+          hosts:
+            host7.example.com:
+            host8.example.com:
+          vars:
+            ansible_user: myuser
+            version: 1.18
+
+# Más sencillo o complejo que los ini para servidores/grupos? MUCHO MAS COMPLEJO
+# Para variables es mucho más cómodo ponerlas en YAML... aunque ... qué tamaño va a tener el archivo? FLIPAS!
+# To el día haciendo scroll!
+# Y cuidado no te lies con las tabulaciones!

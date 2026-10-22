@@ -1,17 +1,38 @@
+nginx: {}
+---
+nginx:
+    version:
+        name:          "1.22"           # Default que puede sobreescribirse a nivel de cada distro (o no)
+        matching:      ">="              # = (= default)
+---
+nginx:
+    redhat: 
+        version:
+            name:      "1.22"
+            matching:  ">="
+        repo:
+            url:       "http://example.com/nginx.repo"
+            key:       "http://example.com/nginx.repo.key"  
+    debian:
+        version:
+            name:      "1.20"
+            matching:  ">="
+
+---
 nginx:
     version:
         name:          "a.b.c"           # Default que puede sobreescribirse a nivel de cada distro (o no)
         matching:      ">="              # = (= default)
     redhat:                              # Esta etiqueta es opcional (si se tira de repos oficiales y quiero la ultima version)
-        version:      
+        version:
             name:      "a.b.c"
             matching:  ">="
         repo:
             url:       "http://example.com/nginx.repo"
             key:       "http://example.com/nginx.repo.key"
     debian:
-        version:      
-            name:      "a.b.c"      
+        version:
+            name:      "a.b.c"
             matching:  ">="              # La version también es opcional (si uso la de arriba)
         repo:                            # Repo es opcional si uso el oficial de la distro
             url:       "http://example.com/nginx.repo"
@@ -32,7 +53,11 @@ web:
                             client_header_timeout 10s;
   repo:                 "https://git.example.com/miweb.git"
   chequeos:
-    - path:             /salud
-      respuesta:       
+    - path:             /status
+      respuesta:
+        status_code:    200
+        texto:          "El sitio está funcionando ok"
+    - path:             /performance
+      respuesta:
         status_code:    200
         texto:          "El sitio está funcionando ok"

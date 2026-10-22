@@ -1,4 +1,3 @@
-
 - name:                   Comprobar si el proceso de nginx está corriendo
   ansible.builtin.service_facts:
   # rellena una variable llamada ansible_facts.services con los servicios del sistema
@@ -6,7 +5,7 @@
   # Si el servicio está corriendo status será running
   # Esto es una prueba?
   failed_when:           ansible_facts.services['nginx'].state != 'running'
-  tags: 
+  tags:
           - prueba
   # Módulo que se llama: service_facts
   # Podría hacer un ps -eaf | grep nginx.... Vamos a por el otro que es más guay
@@ -24,11 +23,20 @@
   # modulo wait_for
 
 - name:                   Comprobar si llamando a la ruta configurada para chequeos desde local, funciona.
+                            # curl http://dominio:80/ruta_de_chequeo // DESDE LA PROPIA MAQUINA REMOTA
+  ansible.builtin.uri:
+    url:                  "http://{{ web.nombre_servidor }}:{{ web.puerto }}{{ chequeo.path }}"
+    method:               GET
+    status_code:
+                        - "{{ chequeo.respuesta.status_code }}"
+  loop:                   "{{ web.chequeos }}"
+  loop_control:
+    loop_var:             chequeo
+  changed_when:           false
   tags:
           - prueba
-                            # curl http://dominio:80/ruta_de_chequeo // DESDE LA PROPIA MAQUINA
 
-- name:                   Comprobar si el puerto es accesible desde fuera (FIREWALL) 
+- name:                   Comprobar si el puerto es accesible desde fuera (FIREWALL)
   ansible.builtin.wait_for:
     port:                 "{{ web.puerto }}"
     delay:                10
@@ -42,7 +50,7 @@
           - prueba
 
 - name:                   Comprobar si el DNS está bien configurado PING nslookup | getent hosts <fqdn>
-  # Ejecutar UN comando: 
+  # Ejecutar UN comando:
   # Cuando ejecuto comandos o scripts (command / shell) hay un par de cosas a tener en cuenta:
   # - El modulo SIEMPRE marca la tarea como changed.
   # - El módulo (command, shell) pordefecto miran el código de salida del proceso:
@@ -57,9 +65,16 @@
 
 - name:                   Comprobar si la web responde correctamente desde fuera en la ruta configurada
                             # curl http://dominio:80/ruta_de_chequeo // DESDE UNA MAQUINA EXTERNA
+  ansible.builtin.uri:
+    url:                  "http://{{ web.nombre_servidor }}:{{ web.puerto }}{{ chequeo.path }}"
+    method:               GET
+    status_code:
+                        - "{{ chequeo.respuesta.status_code }}"
+  loop:                   "{{ web.chequeos }}"
+  loop_control:
+    loop_var:             chequeo
+  changed_when:           false
   delegate_to:            localhost
   tags:
           - prueba
 
-
-# modulo uri

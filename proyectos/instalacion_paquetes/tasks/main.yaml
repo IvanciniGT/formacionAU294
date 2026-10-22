@@ -7,8 +7,8 @@
     # - Una variable:  {{ familia_sistema_operativo }}
     # - Una expresión:  {{ familia_sistema_operativo == 'debian' }}
     # - Una variable con un filtro de Jinja:  {{ 'hola' | upper }}
-    apply: 
+    apply:
       tags:
         - always
-    tags:
-      - always
+  tags:
+    - always

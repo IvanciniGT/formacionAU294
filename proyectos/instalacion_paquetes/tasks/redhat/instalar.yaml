@@ -7,10 +7,11 @@
     baseurl:              "{{ repositorio }}"
     gpgcheck:             "{{ clave | default('') | length > 0 }}"
     gpgkey:               "{{ clave | default(omit) }}" # omit: Si no hay clave, no rellener el parámetro gpgkey, como si no hubiera escrito la linea
-  when:                   repositorio is defined and repositorio | length > 0 # Cuando me han pasado repos específicos. Si tiran de repos oficiales no. -> CONDICIONAL!
+  when:                   repositorio is defined and repositorio | length > 0
+                          # Cuando me han pasado repos específicos. Si tiran de repos oficiales no. -> CONDICIONAL!
   become:                 true # Necesito permisos de superusuario para poder hacer esta tarea.
                           # Mi problema no es mirar si tengo esos permisos. NECESITO ESOS PERMISOS.
-                          # El problema es de quién ejecute el playbook... 
+                          # El problema es de quién ejecute el playbook...
                           # más vale que lo esté ejecutando con un usuario que tenga permisos de superusuario.
                           # Como puedo convertirme en superusuario? sudo....    su - root
                           # Hay muchas formas de poder convertirme en superusuario. Cual uso? NO ES MI PROBLEMA!
@@ -22,7 +23,7 @@
 - name:                   Asegurar que el paquete queda instalado en el host en la versión que me interesa
                           # Este es el que ejecutará el dnf o el yum o el apt...
   ansible.builtin.dnf:
-    name:                 "{{ paquete }}{{ '' if not version else ('-'' + version) if ((operador_version | default('=')) == '=') else (' ' + operador_version + ' ' + version) }}"
+    name:                 "{{ paquete }}{{ '' if not version else ('-' + version) if ((operador_version | default('=')) == '=') else (' ' + operador_version + ' ' + version) }}"
     # Estas expresiones, las IAs (gemini, chatgpt... os las montan en un segundo)
     state:                present
     update_cache:         true

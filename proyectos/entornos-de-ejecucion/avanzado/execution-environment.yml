@@ -5,11 +5,11 @@ build_arg_defaults:
 
 dependencies:
   ansible_core:
-    package_pip: ansible-core
+    package_pip: ansible-core==2.15.0
   ansible_runner:
-    package_pip: ansible-runner
+    package_pip: ansible-runner==2.3.0
   python:
-    - passlib
+    - passlib==2024.6.1
   system:
     - iproute            # para comandos como ip a/ip route
     - iputils            # para ping
@@ -17,12 +17,15 @@ dependencies:
     - openssh-clients    # para ssh y scp
     - sshpass            # si lo usas en tu inventario
     - python3.12
-    - python3.12-devel
+    - python3.12-devel=3.12
   galaxy:
     collections:
     - name: ansible.posix
+      version: '1.5.0'
     - name: community.general
     - name: kubernetes.core
+    roles:
+    - name: geerlingguy.nginx
 images:
   base_image:
     name: registry.fedoraproject.org/fedora:38
