@@ -118,3 +118,4 @@ Se sigue el mismo criterio que con el role:
 | Versión | Qué lleva                                                     |
 |---------|---------------------------------------------------------------|
 | 1.0.0   | ansible-core 2.20.10, ansible.posix 2.2.2, community.general 13.5.0, instalacion_paquetes v1.0.0, sobre Fedora 43 |
+| 1.1.0   | Lo mismo con instalacion_paquetes v1.0.1 |
