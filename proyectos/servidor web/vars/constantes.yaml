@@ -3,7 +3,6 @@ dependencias:
       version:
           name:          "1.7.1"
           matching:      ">="
-  curl:                  {}
   rsync:                 {}
 
 # Dónde espera nginx la configuración de un sitio. No es un argumento: no

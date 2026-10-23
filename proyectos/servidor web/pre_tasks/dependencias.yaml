@@ -27,6 +27,8 @@
                                              | default(paquete_actual.value.version.matching) | default('=') }}
     repositorio:                          "{{ paquete_actual.value[familia_sistema_operativo].repo.url | default('') }}"
     clave:                                "{{ paquete_actual.value[familia_sistema_operativo].repo.key | default('') }}"
+    suite:                                "{{ paquete_actual.value[familia_sistema_operativo].repo.suite | default('') }}"
+    componentes:                          "{{ paquete_actual.value[familia_sistema_operativo].repo.componentes | default(['main']) }}"
   loop:                                   "{{ dependencias | dict2items }}"
   # Eso es un filtro jinja..
   loop_control:

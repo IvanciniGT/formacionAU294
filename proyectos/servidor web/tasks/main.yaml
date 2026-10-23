@@ -8,6 +8,7 @@
           # - operador_version (opcional)
           # - repositorio (opcional)
           # - clave (opcional)
+          # - suite y componentes (opcionales, solo Debian/Ubuntu)
           # Nuestras variables NO SE LLAMAN ASI.
           # Lo que podemos hacer es definir ESAS VARIABLES SOLO PARA ESTA TAREA
     apply:
@@ -23,6 +24,8 @@
     operador_version:     "{{ configuracion_nginx[familia_sistema_operativo].version.matching | default(configuracion_nginx.version.matching) | default('=') }}"
     repositorio:          "{{ configuracion_nginx[familia_sistema_operativo].repo.url | default('') }}"
     clave:                "{{ configuracion_nginx[familia_sistema_operativo].repo.key | default('') }}"
+    suite:                "{{ configuracion_nginx[familia_sistema_operativo].repo.suite | default('') }}"
+    componentes:          "{{ configuracion_nginx[familia_sistema_operativo].repo.componentes | default(['main']) }}"
   tags:
           - instalacion
 
