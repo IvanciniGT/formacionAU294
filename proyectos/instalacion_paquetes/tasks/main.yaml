@@ -1,0 +1,14 @@
+- name:                                     Asegurar que un paquete queda instalado en la versión que me interesa
+  ansible.builtin.include_tasks:
+    file:                                   "instalacion_paquete/{{ familia_sistema_operativo }}/instalar.yaml"
+    # En una plantilla jinja, lo que no va entre {{}} se interpreta como texto literal.
+    # lo que ponemos entre {{}} se interpreta como una expresión Jinja que se evalúa en tiempo de ejecución.
+    # Esa expresión puede ser :
+    # - Una variable:  {{ familia_sistema_operativo }}
+    # - Una expresión:  {{ familia_sistema_operativo == 'debian' }}
+    # - Una variable con un filtro de Jinja:  {{ 'hola' | upper }}
+    apply:
+      tags:
+        - always
+  tags:
+    - always
