@@ -12,7 +12,7 @@ nginx:              {}             # El de los repos oficiales de la distro, la 
 web:
   nombre:               miweb      # Nombre del sitio: fichero de configuración, logs y backups
   puerto:               80
-  nombre_servidor:      "{{ inventory_hostname }}"  # server_name de nginx (fqdn)
+  nombre_servidor:      "{{ ansible_host }}"  # server_name de nginx (fqdn)
   carpeta_web:          /var/www/miweb
   carpeta_descarga:     /var/tmp/despliegue-miweb   # Donde se clona el repo antes de desplegar
   carpeta_backups:      /var/backups/web            # Donde quedan los .tar.gz de lo que había antes

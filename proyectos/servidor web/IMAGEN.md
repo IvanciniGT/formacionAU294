@@ -48,7 +48,7 @@ Tarda unos minutos la primera vez. La imagen pesa unos 500 MB.
 Antes de subirla, que lleve lo que se espera:
 
 ```bash
-docker run --rm $IMAGEN bash -c '
+docker run --rm ivanosuna.com/curso/ee-servidor-web:v1.2.0 bash -c '
   ansible --version | head -1
   ansible-galaxy collection list 2>/dev/null | grep -E "posix|general"
   ansible-galaxy role list 2>/dev/null | grep instalacion_paquetes'
