@@ -1,5 +1,3 @@
-
-
 # Chequeos / comprobaciones previas para ver si me planteo ejecutar el playbook si quiera!
 # Decidiré yo que compensa comprobar... PERO SIEMPRE HABRA COSAS QUE COMPROBAR!
 - name:                                   Comprobar que el host tiene una distro soportada por el playbook
@@ -10,7 +8,7 @@
         # Eso es una expresión JINJA que se evalúa como TRUE o FALSE
         # Si la expresión da TRUE, el módulo se ejecuta y se corta la ejecución del playbook en este host.
         # Si la expresión da FALSE, el módulo no se ejecuta (estado SKIPPED)
-        
+
         # Eso es una ruina! desde el punto de vista de la mantenibilidad del playbook
         familia_sistema_operativo not in distros_soportadas    # operador in: Mira si un valor está dentro de los elementos de una lista
                                                                    # not in: Comprueba si un valor NO está dentro de los elementos de una lista
@@ -23,7 +21,7 @@
 
         # lower es un FILTRO de Jinja . Los filtros los aplicamos con sintaxis de PIPEs
         # variable | filtro
-        # Filtros en jinja para textos: 
+        # Filtros en jinja para textos:
         # lower: Convierte el texto a minúsculas
         # upper: Convierte el texto a mayúsculas
         # title: Convierte el texto a formato título (primera letra de cada palabra en mayúscula)
@@ -44,23 +42,39 @@
         # De hecho, esto es algo que ansible no hace solo en la marca "when", lo hace en muchas otras:
         # como por ejemplo en los "changed_when", "failed_when", "ignore_errors" , become, etc.
 
+- name:                   Comprobar que nos han dado lo imprescindible para trabajar
+  # Mejor fallar aquí, con un mensaje que diga qué falta, que a mitad del
+  # despliegue con un error del módulo git que no lo dice.
+  ansible.builtin.assert:
+    that:
+      - configuracion_web.repo | length > 0
+      - configuracion_web.puerto | int > 0
+      - configuracion_web.chequeos | length > 0
+    fail_msg:             >-
+                          Faltan argumentos: hay que pasar al menos web.repo (el repositorio de Git
+                          de la web), un web.puerto válido y algún chequeo en web.chequeos.
+    quiet:                true
+
 - name:                   "VARIANTE 1: Comprobar que el el repo de git de la web existe y es accesible"
   ansible.builtin.uri:
-    url:                  "{{ web.repo }}"
+    url:                  "{{ configuracion_web.repo }}"
     method:               GET
     follow_redirects:     safe
     status_code:
                         - 200
   changed_when:           false
   delegate_to:            localhost
+  # Solo tiene sentido con repos por http(s). A uno por ssh (git@...) no se le
+  # puede hacer un GET: eso lo comprobaría el propio módulo git al clonar.
+  when:                   configuracion_web.repo is match('https?://')
 
 - name:                   "VARIANTE 2: Comprobar que el el repo de git de la web existe y es accesible"
   # Esto no tendría sentido hacerlo... lo suyo es modulo uri... o modulo git
   # Pero quiero enseñar algunos conceptos adicionales de ansible
   ansible.builtin.shell:
     cmd:                  |
-                            echo Haciendo peticion a {{ web.repo }}
-                            curl -w '%{http_code}' -s -o /dev/null -L {{ web.repo }}"
+                            echo Haciendo peticion a {{ configuracion_web.repo }}
+                            curl -w '%{http_code}' -s -o /dev/null -L {{ configuracion_web.repo }}
   # Cuando daría fallo este script?
   # El módulo shell (igual que el módulo command) marca como FAILED la tarea
   # si el código de salida del script es distinto de 0
@@ -70,29 +84,32 @@
   # Casi TODOS LOS MODULOS OFRECEN RETURN VALUES
   # Pero esos return values no son directamente accesibles. Hay truco.
   # Lo primero que necesitamos es REGISTRAR LA SALIDA DEL MODULO EN UNA VARIABLE
-  register: resultado_curl
+  register:               resultado_curl
   # Esa variable es un mapa (cuando ejecuto un módulo)
   # Las claves de ese mapa incluyen los RETURN VALUES definidos en la documentación del módulo
   # Esa variable puedo usarla en esta tarea o en posteriores tareas
   # failed_when: "'200' not in resultado_curl.stdout"
   # El mñódulo shell, igual que command, siempre marca la tarea como CHANGED
   # Incluso si el script no hace nada o devuelve 0, la tarea se considera cambiada.
-  changed_when: false
-  delegate_to: localhost
+  changed_when:           false
+  delegate_to:            localhost
+  when:                   configuracion_web.repo is match('https?://')
 
 - name:                   "Comprobar que la petición curl devolvió 200"
   ansible.builtin.assert:
     that:
-      #- "'200' in resultado_curl.stdout"
+      # - "'200' in resultado_curl.stdout"
       # Notas:
       # ¿Qué pasaría, dios no lo quiera, si la url del repo contuviera el texto "200"?
       # Pero devuelve 404. https://github.com/ivanciniGT/formacionAnsible200
-      # Estamos jodidos.. ya que nuestro script, lo primero que hace es: 
+      # Estamos jodidos.. ya que nuestro script, lo primero que hace es:
       # echo Haciendo peticion a {{ web.repo }}
       # Y en la stdout aparecerá el texto "200" y la petición se da por buena
-      # Dónde deberíamos mirar si aparece el texto "200"? En la segunda linea del stdout    fail_msg: "La petición no devolvió 200"
+      # Dónde deberíamos mirar si aparece el texto "200"? En la segunda linea del stdout
       - "'200' in resultado_curl.stdout_lines[1]" # Se empieza a contar en el 0
       # Aqui vemos como acceder a posiciones de una LISTA! en sintaxis jinja
       # En este caso, no ponemos las llaves {{}}, pasa como con el when, changed_when, etc.
       # Ansible pone las llaves por mi... pero sigue siendo una expresión jinja completa.
-    success_msg: "La petición devolvió 200"
+    fail_msg:             "La petición no devolvió 200"
+    success_msg:          "La petición devolvió 200"
+  when:                   configuracion_web.repo is match('https?://')

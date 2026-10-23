@@ -1,8 +1,0 @@
-#SPDX-License-Identifier: MIT-0
----
-# defaults file for instalacion_paquetes
-paquete:              "" # OBLIGATORIO
-# version:              "" Del tipo: a.b.c
-# operador_version:     "=" # != >= <= > >
-# repositorio:          ""
-# clave:                ""
