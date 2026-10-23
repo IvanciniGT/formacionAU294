@@ -60,28 +60,32 @@ Tiene que salir algo así:
 ansible [core 2.20.10]
 ansible.posix                            2.2.2
 community.general                        13.5.0
-- instalacion_paquetes, v1.0.0
+- instalacion_paquetes, v1.0.1
 ```
 
 ## 3. Subir a Harbor
 
-**Hace falta una cuenta con permiso para subir al proyecto `curso`.** El login
-que tiene Docker en este Mac es `robot$erp-ci`, la cuenta robot del ERP, y
-Harbor la rechaza con `unauthorized to access repository: curso/...`.
-
-Para no perder ese login, se sube con una configuración de Docker temporal:
+**Hace falta una cuenta con permiso para subir al proyecto `curso`.** Docker
+en este Mac entra en Harbor como `admin`, que puede subir a cualquier proyecto.
+Si `docker push` contesta `unauthorized`, es que no hay login o es de otra
+cuenta, y se vuelve a entrar:
 
 ```bash
-export DOCKER_CONFIG=$(mktemp -d) && echo '{}' > $DOCKER_CONFIG/config.json
-
 kubectl -n harbor get secret harbor-core -o jsonpath='{.data.HARBOR_ADMIN_PASSWORD}' \
   | base64 -d | docker login registry.ivanosuna.com -u admin --password-stdin
-
-docker push $IMAGEN
-
-docker logout registry.ivanosuna.com
-rm -rf $DOCKER_CONFIG && unset DOCKER_CONFIG
 ```
+
+Basta con hacerlo una vez: queda guardado en el llavero de macOS.
+
+```bash
+docker push $IMAGEN
+```
+
+**Nada de `DOCKER_CONFIG` temporal ni de `docker logout` después.** En macOS,
+Docker guarda el login en el llavero del sistema, que es UNO para todas las
+configuraciones: un `docker login` desde una configuración temporal pisa el de
+siempre, y el `docker logout` lo borra. Así se perdió el 23-10-2026 el login de
+`robot$erp-ci`.
 
 Comprobar que está:
 
@@ -119,3 +123,4 @@ Se sigue el mismo criterio que con el role:
 |---------|---------------------------------------------------------------|
 | 1.0.0   | ansible-core 2.20.10, ansible.posix 2.2.2, community.general 13.5.0, instalacion_paquetes v1.0.0, sobre Fedora 43 |
 | 1.1.0   | Lo mismo con instalacion_paquetes v1.0.1 |
+| 1.1.1   | Lo mismo que la 1.1.0, reconstruida |
