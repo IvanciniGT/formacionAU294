@@ -7,7 +7,7 @@
   tags:
           - instalacion
   block:
-    - name:               Asegurar que nginx queda instalado en el host en la versión que me interesa
+    - name:               Asegurar que NGINX queda instalado en el host en la versión que me interesa
       ansible.builtin.include_role:
         name:             instalacion_paquetes
               # La tarea de instalación necesita:
