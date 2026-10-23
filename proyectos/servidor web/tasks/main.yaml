@@ -37,8 +37,12 @@
   rescue: # Los rescue se pueden poner en los bloques y sirven para manejar errores de manera controlada dentro del bloque.
   # Damos tareas que de seben ejecutar caso que en el bloque se haya producido un error.
     - name:               Manejar error en la instalación de nginx
-      ansible.builtin.debug:
-        msg:              "Hubo un error al instalar nginx"
+      # Un rescue que solo avisa SE TRAGA EL ERROR: Ansible da el fallo por
+      # recogido (rescued), sigue con el resto del playbook sin nginx y el
+      # trabajo termina en verde. Por eso acaba fallando él, con el mensaje del
+      # error original, que está en ansible_failed_result.
+      ansible.builtin.fail:
+        msg:              "Hubo un error al instalar nginx: {{ ansible_failed_result.msg | default('sin mensaje') }}"
   always: # Las tareas en always se ejecutan siempre, haya habido error o no en el bloque.
     - name:               Mensaje siempre después de intentar instalar nginx
       ansible.builtin.debug:
