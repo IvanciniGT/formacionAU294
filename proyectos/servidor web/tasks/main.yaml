@@ -132,7 +132,9 @@
     file_type:            any
     hidden:               true
   register:               desplegado_antes
-  when:                   "'<<CHANGED>>' in diferencias_web.stdout"
+  # synchronize en check_mode no devuelve stdout: devuelve stdout_lines, una
+  # línea por fichero que cambiaría. Vacía, no hay nada distinto.
+  when:                   diferencias_web.stdout_lines | length > 0
   become:                 true
   tags:
           - despliegue
@@ -142,7 +144,7 @@
     path:                 "{{ configuracion_web.carpeta_backups }}"
     state:                directory
     mode:                 "0750"
-  when:                   "'<<CHANGED>>' in diferencias_web.stdout and desplegado_antes.matched > 0"
+  when:                   diferencias_web.stdout_lines | length > 0 and desplegado_antes.matched > 0
   become:                 true
   tags:
           - despliegue
@@ -154,7 +156,7 @@
     dest:                 "{{ configuracion_web.carpeta_backups }}/{{ configuracion_web.nombre }}-{{ now(utc=true, fmt='%Y%m%dT%H%M%SZ') }}.tar.gz"
     format:               gz
     mode:                 "0640"
-  when:                   "'<<CHANGED>>' in diferencias_web.stdout and desplegado_antes.matched > 0"
+  when:                   diferencias_web.stdout_lines | length > 0 and desplegado_antes.matched > 0
   become:                 true
   tags:
           - despliegue
