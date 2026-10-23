@@ -42,8 +42,8 @@
     #
     # En nuestro laboratorio las máquinas son CONTENEDORES, y en un contenedor
     # el proceso 1 no es systemd sino sshd: no hay systemctl al que pedirle
-    # nada. Por eso esta tarea queda comentada y la sustituye la de abajo, que
-    # habla directamente con el proceso de nginx.
+    # nada. Por eso la tarea de systemd queda comentada y la sustituye la
+    # de abajo, que habla directamente con el proceso de nginx.
     #
     # Y no, reiniciar el pod no es la alternativa: el pod sale de una imagen que
     # solo trae sshd, así que uno nuevo arranca SIN nginx, sin web y sin
@@ -54,7 +54,7 @@
     #     name:                 nginx
     #     state:                reloaded
     #   become:                 true
-    #   listen:                 configuracion de nginx cambiada
+    #   listen:                 CONFIGURACION_NGINX_CAMBIADA
 
     - name:                   Recargar nginx
       # reload y no restart: nginx relee la configuración con los procesos
@@ -64,4 +64,4 @@
         cmd:                  nginx -s reload
       changed_when:           true
       become:                 true
-      listen:                 configuracion de nginx cambiada
+      listen:                 CONFIGURACION_NGINX_CAMBIADA

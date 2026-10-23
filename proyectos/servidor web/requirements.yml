@@ -16,4 +16,4 @@ roles:
   # una rama se mueve y la imagen dejaría de ser reproducible.
   - name:             instalacion_paquetes
     src:              git+https://github.com/IvanciniGT/ansible-role-instalacion_paquetes.git
-    version:          "v1.0.0"
+    version:          "v1.0.1"

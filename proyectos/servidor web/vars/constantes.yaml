@@ -6,14 +6,17 @@ dependencias:
   rsync:                 {}
 
 # Dónde espera nginx la configuración de un sitio. No es un argumento: no
-# depende de quien ejecute el playbook sino de cómo empaqueta nginx cada distro.
-#   RedHat: un .conf en conf.d, que nginx lee entero.
-#   Debian: el fichero en sites-available y un enlace en sites-enabled, que es
-#           lo que nginx lee. Así un sitio se apaga quitando el enlace.
-nginx_por_familia:
-  redhat:
-    fichero_sitio:       "/etc/nginx/conf.d/{{ configuracion_web.nombre }}.conf"
-    enlace_sitio:        ""
-  debian:
+# depende de quien ejecute el playbook sino del nginx.conf que trae el paquete
+# (ver «Mirar si el nginx instalado lee sites-enabled» en tasks/main.yaml).
+#   sites:  el fichero en sites-available y un enlace en sites-enabled, que es
+#           lo que nginx lee. Así un sitio se apaga quitando el enlace. Es la
+#           del nginx de Ubuntu/Debian.
+#   conf_d: un .conf en conf.d, que nginx lee entero. Es la del nginx de
+#           RedHat y la del de nginx.org en cualquier distro.
+nginx_disposiciones:
+  sites:
     fichero_sitio:       "/etc/nginx/sites-available/{{ configuracion_web.nombre }}"
     enlace_sitio:        "/etc/nginx/sites-enabled/{{ configuracion_web.nombre }}"
+  conf_d:
+    fichero_sitio:       "/etc/nginx/conf.d/{{ configuracion_web.nombre }}.conf"
+    enlace_sitio:        ""
